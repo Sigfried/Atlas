@@ -122,11 +122,12 @@ requirejs.config({
 		"prism": "prism",
 		"sptest": "sptest/sptest",
 		"sptest_smoking": "sptest/sptest_smoking",
+		"vocab-experiment": "components/vocab-experiment",
 	}
 });
 
 requirejs(['bootstrap'], function () { // bootstrap must come first
-	requirejs(['knockout', 'app', 'appConfig', 'ohdsi.util', 'director', 'search', 'localStorageExtender', 'jquery.ui.autocomplete.scroll'], function (ko, app, config, util) {
+	requirejs(['knockout', 'app', 'appConfig', 'ohdsi.util', 'director', 'vocab-experiment', 'localStorageExtender', 'jquery.ui.autocomplete.scroll'], function (ko, app, config, util) {
 		$('#splash').fadeIn();
 		var pageModel = new app();
 		window.pageModel = pageModel;

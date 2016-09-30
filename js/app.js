@@ -121,12 +121,14 @@ define(['jquery', 'knockout', 'jnj_chart', 'd3', 'ohdsi.util', 'appConfig', 'fac
 						self.currentView('splash');
 					},
 					'/search/:query:': function (query) {
+						debugger;
 						require(['search'], function (search) {
 							self.currentView('search');
 							self.currentSearchValue(unescape(query));
 						});
 					},
 					'/search': function () {
+						debugger;
 						require(['search'], function (search) {
 							self.currentSearch('');
 							self.searchTabMode('simple');
@@ -184,7 +186,18 @@ define(['jquery', 'knockout', 'jnj_chart', 'd3', 'ohdsi.util', 'appConfig', 'fac
 							self.currentView('sptest_smoking');
 						});
 					},
-        	}
+					'/vocab-experiment': function () {
+						require(['vocab-experiment'], function () {
+							self.currentView('vocab-experiment');
+						});
+					},
+					'/vocab-experiment/:query:': function (query) {
+						require(['vocab-experiment'], function (search) {
+							self.currentView('vocab-experiment');
+							self.currentSearchValue(unescape(query));
+						});
+					},
+				}
 				self.router = new Router(routes).configure(routerOptions);
 				self.router.init('/');
 				self.applicationStatus('running');
