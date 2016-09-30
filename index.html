@@ -197,6 +197,9 @@
 			<div data-bind="if:pageModel.currentView() == 'sptest_smoking'">
 				<sptest_smoking></sptest_smoking>
 			</div>
+			<div data-bind="visible: pageModel.currentView() == 'vocab-experiment'">
+				<vocab-experiment id="componentVocabExperiment" params="{model: pageModel}"></vocab-experiment>
+			</div>
 
 		</div>
 	</div>
