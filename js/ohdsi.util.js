@@ -1692,6 +1692,47 @@ define(['jquery','knockout','lz-string', 'lodash', 'crossfilter/crossfilter'], f
 	}
 	var reduceToRecs = [(p, v, nf) => p.concat(v), (p, v, nf) => _.without(p, v), () => []];
 
+	class PromiseQueue {
+		constructor(queueSize=10) {
+			this.queue = [];
+			this.queueSize = queueSize;
+			this.nextId = 0;
+			this.nextToRun = 0;
+			this.running = {};
+		}
+		addFuncs(funcs) { // not handling race condition, but seems unlikely
+			var batch = funcs.map(func => { 
+				var id = this.nextId++;
+				var job = this.queue[id] = { id, func, prePromise: $.Deferred(), };
+				this.runNextJob();
+				return job;
+			});
+			return batch.map(job => job.prePromise);
+		}
+		runNextJob() {
+			if (this.nextToRun >= this.queue.length) {
+				console.log('queue is empty');
+				return;
+			}
+			if (_.keys(this.running).length < this.queueSize) {
+				var job = this.queue[this.nextToRun++];
+				console.log(`running ${job.id + 1} of ${this.queue.length}`, job)
+				this.running[job.id] = job;
+				job.promise = job.func();
+				job.promise.done(results => {
+					job.prePromise.resolve(results);
+					delete this.running[job.id];
+					this.runNextJob();
+				});
+			}
+		}
+		flush() {
+			var canceled = this.queue.splice(this.nextToRun);
+			canceled.forEach(job => job.prePromise.reject());
+			console.log(`canceled ${canceled.map(job => job.id).join(',')}`);
+		}
+	}
+
 	// END module functions
 	
 	utilModule.dirtyFlag = dirtyFlag;
@@ -1725,6 +1766,7 @@ define(['jquery','knockout','lz-string', 'lodash', 'crossfilter/crossfilter'], f
 	utilModule.storageExists = storageExists;
 	utilModule.storageGet = storageGet;
 	utilModule.SharedCrossfilter = SharedCrossfilter;
+	utilModule.PromiseQueue = PromiseQueue;
 	
 	if (DEBUG) {
 		window.util = utilModule;
