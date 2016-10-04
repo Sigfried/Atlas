@@ -133,17 +133,17 @@ define(['knockout', 'text!./faceted-datatable-cf.html', 'lodash', 'ohdsi.util', 
 			return !!func;
 		};
 
-		newRecs(ko.utils.unwrapObservable(params.recs));
+		newRecs(ko.utils.unwrapObservable(params.recs), true);
 		if (ko.isSubscribable(params.recs)) {
 			params.recs.subscribe(function(recs) {
 				console.warn("changing recs externally. if you're trying to filter you should probably be using ohdsi.util.SharedCrossfilter");
-				newRecs(recs);
+				newRecs(recs, true);
 			});
 		}
 
-		function newRecs(recs) {
+		function newRecs(recs, replace = false) {
 			var scf = self.sharedCrossfilter();
-			if (recs !== ko.utils.unwrapObservable(params.recs)) {
+			if (recs !== ko.utils.unwrapObservable(params.recs) || replace) {
 				scf.replaceData(recs);
 			}
 			processFieldFacetColumnParams();
@@ -186,10 +186,8 @@ define(['knockout', 'text!./faceted-datatable-cf.html', 'lodash', 'ohdsi.util', 
 			sharedSetup(self.columns);
 			self.columns.forEach(function(column) {
 				column.title = column.title || d3.functor(column.label)();
-				column.render = function(data, type, row, meta) {
+				column.render = column.render || function(data, type, row, meta) {
 					// see https://datatables.net/reference/option/columns.render
-					if (typeof data !== "undefined")
-						return row[data];
 					return column.accessor(row);
 				};
 			})
@@ -228,14 +226,12 @@ define(['knockout', 'text!./faceted-datatable-cf.html', 'lodash', 'ohdsi.util', 
 					//field.accessor = field.accessors.value;
 					//happening if Field class now
 				} else {
-					field.label = field.label || field.fname;
-					field.value = field.value || field.fname;
-                    field.name = field.name || field.fname || field.propName || field.label;
-					field.accessor = field.value || (d=>d);
-					if (typeof field.accessor === "string" || isFinite(field.accessor)) {
-						field.accessor = d => d[field.value];
-					}
-					if (typeof field.accessor !== "function") {
+					field.label = field.label || field.fname || field.caption;
+					field.accessor = util.dataAccessor(field, 
+															['value','binding','propName','fname','data'],null, true,true);
+					//field.value = field.value || field.fname;
+					field.name = field.name || field.fname || field.propName || field.label;
+					if (typeof field.accessor !== "function" && !field.render) {
 						throw new Error("field.value must be function or string or index");
 					}
 				}

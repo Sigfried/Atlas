@@ -121,14 +121,12 @@ define(['jquery', 'knockout', 'jnj_chart', 'd3', 'ohdsi.util', 'appConfig', 'fac
 						self.currentView('splash');
 					},
 					'/search/:query:': function (query) {
-						debugger;
 						require(['search'], function (search) {
 							self.currentView('search');
 							self.currentSearchValue(unescape(query));
 						});
 					},
 					'/search': function () {
-						debugger;
 						require(['search'], function (search) {
 							self.currentSearch('');
 							self.searchTabMode('simple');
@@ -186,15 +184,10 @@ define(['jquery', 'knockout', 'jnj_chart', 'd3', 'ohdsi.util', 'appConfig', 'fac
 							self.currentView('sptest_smoking');
 						});
 					},
-					'/vocab-experiment': function () {
+					'/vocab-experiment/?((\w|.)*)': function (path) { 
+						console.log(this.getRoute());
 						require(['vocab-experiment'], function () {
 							self.currentView('vocab-experiment');
-						});
-					},
-					'/vocab-experiment/:query:': function (query) {
-						require(['vocab-experiment'], function (search) {
-							self.currentView('vocab-experiment');
-							self.currentSearchValue(unescape(query));
 						});
 					},
 				}
@@ -247,7 +240,7 @@ define(['jquery', 'knockout', 'jnj_chart', 'd3', 'ohdsi.util', 'appConfig', 'fac
 					children: ko.observableArray(),
 					synonyms: ko.observableArray()
 				};
-				$.ajax({
+				ohdsiUtil.cachedAjax({
 					url: self.vocabularyUrl() + 'concept/' + conceptId + '/related',
 					method: 'GET',
 					contentType: 'application/json',
@@ -807,7 +800,7 @@ define(['jquery', 'knockout', 'jnj_chart', 'd3', 'ohdsi.util', 'appConfig', 'fac
 				conceptIdentifierList.push(self.selectedConcepts()[i].concept.CONCEPT_ID);
 			}
 			self.currentConceptIdentifierList(conceptIdentifierList.join(','));
-			var resolvingPromise = $.ajax({
+			var resolvingPromise = ohdsiUtil.cachedAjax({
 				url: self.vocabularyUrl() + 'resolveConceptSetExpression',
 				data: conceptSetExpression,
 				method: 'POST',
@@ -827,7 +820,7 @@ define(['jquery', 'knockout', 'jnj_chart', 'd3', 'ohdsi.util', 'appConfig', 'fac
 			return resolvingPromise;
 		};
 		self.resolveConceptSetExpressionSimple = function(expression, success) {
-			var resolvingPromise = $.ajax({
+			var resolvingPromise = ohdsiUtil.cachedAjax({
 				url: self.vocabularyUrl() + 'resolveConceptSetExpression',
 				data: expression,
 				method: 'POST',
@@ -978,7 +971,7 @@ define(['jquery', 'knockout', 'jnj_chart', 'd3', 'ohdsi.util', 'appConfig', 'fac
 			var sourceKey = source.sourceKey;
 			var cohortDefinitionId = self.currentCohortDefinition() && self.currentCohortDefinition().id();
 			if (cohortDefinitionId != undefined) {
-				$.ajax(config.services[0].url + sourceKey + '/cohortresults/' + cohortDefinitionId + '/distinctPersonCount', {
+				ohdsiUtil.cachedAjax(config.services[0].url + sourceKey + '/cohortresults/' + cohortDefinitionId + '/distinctPersonCount', {
 					observable: observable,
 					success: function (result) {
 						this.observable(result);
@@ -995,7 +988,7 @@ define(['jquery', 'knockout', 'jnj_chart', 'd3', 'ohdsi.util', 'appConfig', 'fac
 		}
 		self.getCompletedAnalyses = function (source) {
 			var cohortDefinitionId = self.currentCohortDefinition().id();
-			$.ajax(config.services[0].url + source.sourceKey + '/cohortresults/' + cohortDefinitionId + '/analyses', {
+			ohdsiUtil.cachedAjax(config.services[0].url + source.sourceKey + '/cohortresults/' + cohortDefinitionId + '/analyses', {
 				success: function (analyses) {
 					sourceAnalysesStatus = {};
 					// initialize cohort analyses status
@@ -1072,7 +1065,7 @@ define(['jquery', 'knockout', 'jnj_chart', 'd3', 'ohdsi.util', 'appConfig', 'fac
 					infoPromise = $.Deferred();
 					infoPromise.resolve();
 				} else {
-					definitionPromise = $.ajax({
+					definitionPromise = ohdsiUtil.cachedAjax({
 						url: config.services[0].url + 'cohortdefinition/' + cohortDefinitionId,
 						method: 'GET',
 						contentType: 'application/json',
@@ -1081,7 +1074,7 @@ define(['jquery', 'knockout', 'jnj_chart', 'd3', 'ohdsi.util', 'appConfig', 'fac
 							self.currentCohortDefinition(new CohortDefinition(cohortDefinition));
 						}
 					});
-					infoPromise = $.ajax({
+					infoPromise = ohdsiUtil.cachedAjax({
 						url: config.services[0].url + 'cohortdefinition/' + cohortDefinitionId + '/info',
 						method: 'GET',
 						contentType: 'application/json',
@@ -1103,7 +1096,7 @@ define(['jquery', 'knockout', 'jnj_chart', 'd3', 'ohdsi.util', 'appConfig', 'fac
 							}));
 							return allConceptIDs;
 						}));
-						conceptPromise = $.ajax({
+						conceptPromise = ohdsiUtil.cachedAjax({
 							url: self.vocabularyUrl() + 'lookup/identifiers',
 							method: 'POST',
 							contentType: 'application/json',
@@ -1288,12 +1281,12 @@ define(['jquery', 'knockout', 'jnj_chart', 'd3', 'ohdsi.util', 'appConfig', 'fac
 				return;
 			}
 			self.currentView('loading');
-			$.ajax({
+			ohdsiUtil.cachedAjax({
 				url: config.services[0].url + 'conceptset/' + conceptSetId,
 				method: 'GET',
 				contentType: 'application/json',
 				success: function (conceptset) {
-					$.ajax({
+					ohdsiUtil.cachedAjax({
 						url: config.services[0].url + 'conceptset/' + conceptSetId + '/expression',
 						method: 'GET',
 						contentType: 'application/json',
@@ -1324,7 +1317,7 @@ define(['jquery', 'knockout', 'jnj_chart', 'd3', 'ohdsi.util', 'appConfig', 'fac
 				var identifiers = $.makeArray($(conceptSet.expression.items()).map(function () {
 					return this.concept.CONCEPT_ID;
 				}));
-				conceptPromise = $.ajax({
+				conceptPromise = ohdsiUtil.cachedAjax({
 					url: self.vocabularyUrl() + 'lookup/identifiers',
 					method: 'POST',
 					contentType: 'application/json',
@@ -1383,7 +1376,7 @@ define(['jquery', 'knockout', 'jnj_chart', 'd3', 'ohdsi.util', 'appConfig', 'fac
 				}
 			}
 			var densityIndex = {};
-			$.ajax({
+			ohdsiUtil.cachedAjax({
 				url: self.resultsUrl() + 'conceptRecordCount',
 				method: 'POST',
 				contentType: 'application/json',

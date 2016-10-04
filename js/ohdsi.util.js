@@ -33,7 +33,7 @@ define(['jquery','knockout','lz-string', 'lodash', 'crossfilter/crossfilter'], f
 
 	var DEBUG = true;
 	var ALLOW_CACHING = [
-		//'.*',
+		//'.*',						// REMEMBER TO COMMENT THIS LINE OUT WHEN NOT DEVELOPING!!
 		//'/WebAPI/[^/]+/person/',
 	];
 	
@@ -1539,9 +1539,9 @@ define(['jquery','knockout','lz-string', 'lodash', 'crossfilter/crossfilter'], f
 	function cachedAjax(opts) {
 		var allowed = _.find(ALLOW_CACHING, url => opts.url.match(url));
 		if (allowed) {
-			console.log(`using cache for ${opts.url}. remove ${allowed} from ohdsi.util.ALLOW_CACHING to disable caching for it`);
+			console.trace(`using cache for ${opts.url}. remove ${allowed} from ohdsi.util.ALLOW_CACHING to disable caching for it`);
 		} else {
-			console.log(`not caching ${opts.url}. add to ohdsi.util.ALLOW_CACHING to enable caching for it`);
+			//console.log(`not caching ${opts.url}. add to ohdsi.util.ALLOW_CACHING to enable caching for it`);
 			return $.ajax(opts);
 		}
 		var key = JSON.stringify(opts);
@@ -1692,6 +1692,47 @@ define(['jquery','knockout','lz-string', 'lodash', 'crossfilter/crossfilter'], f
 	}
 	var reduceToRecs = [(p, v, nf) => p.concat(v), (p, v, nf) => _.without(p, v), () => []];
 
+	class PromiseQueue {
+		constructor(queueSize=10) {
+			this.queue = [];
+			this.queueSize = queueSize;
+			this.nextId = 0;
+			this.nextToRun = 0;
+			this.running = {};
+		}
+		addFuncs(funcs) { // not handling race condition, but seems unlikely
+			var batch = funcs.map(func => { 
+				var id = this.nextId++;
+				var job = this.queue[id] = { id, func, prePromise: $.Deferred(), };
+				this.runNextJob();
+				return job;
+			});
+			return batch.map(job => job.prePromise);
+		}
+		runNextJob() {
+			if (this.nextToRun >= this.queue.length) {
+				console.log('queue is empty');
+				return;
+			}
+			if (_.keys(this.running).length < this.queueSize) {
+				var job = this.queue[this.nextToRun++];
+				console.log(`running ${job.id + 1} of ${this.queue.length}`, job)
+				this.running[job.id] = job;
+				job.promise = job.func();
+				job.promise.done(results => {
+					job.prePromise.resolve(results);
+					delete this.running[job.id];
+					this.runNextJob();
+				});
+			}
+		}
+		flush() {
+			var canceled = this.queue.splice(this.nextToRun);
+			canceled.forEach(job => job.prePromise.reject());
+			console.log(`canceled ${canceled.map(job => job.id).join(',')}`);
+		}
+	}
+
 	// END module functions
 	
 	utilModule.dirtyFlag = dirtyFlag;
@@ -1712,6 +1753,7 @@ define(['jquery','knockout','lz-string', 'lodash', 'crossfilter/crossfilter'], f
 	utilModule.ChartInset = ChartInset;
 	//utilModule.ChartProps = ChartProps;
 	utilModule.AccessorGenerator = AccessorGenerator;
+	utilModule.dataAccessor = dataAccessor;
 	utilModule.getState = getState;
 	utilModule.setState = setState;
 	utilModule.deleteState = deleteState;
@@ -1724,6 +1766,7 @@ define(['jquery','knockout','lz-string', 'lodash', 'crossfilter/crossfilter'], f
 	utilModule.storageExists = storageExists;
 	utilModule.storageGet = storageGet;
 	utilModule.SharedCrossfilter = SharedCrossfilter;
+	utilModule.PromiseQueue = PromiseQueue;
 	
 	if (DEBUG) {
 		window.util = utilModule;

@@ -1,5 +1,5 @@
 requirejs.config({
-	//waitSeconds: 60, // FOR DEVELOPMENT, REMOVE WHEN NOT NEEDED? default is 7
+	waitSeconds: 60, // FOR DEVELOPMENT, REMOVE WHEN NOT NEEDED? default is 7
 	//urlArgs: "bust=" + (new Date()).getTime(),
 	baseUrl: 'js',
 	config: {
@@ -127,7 +127,10 @@ requirejs.config({
 });
 
 requirejs(['bootstrap'], function () { // bootstrap must come first
-	requirejs(['knockout', 'app', 'appConfig', 'ohdsi.util', 'director', 'vocab-experiment', 'localStorageExtender', 'jquery.ui.autocomplete.scroll'], function (ko, app, config, util) {
+	// PUT SEARCH BACK INSTEAD OF VOCAB-EXPERIMENT
+	// requirejs(['knockout', 'app', 'appConfig', 'ohdsi.util', 'director', 'vocab-experiment', 'localStorageExtender', 'jquery.ui.autocomplete.scroll'], function (ko, app, config, util) 
+	requirejs(['knockout', 'app', 'appConfig', 'ohdsi.util', 'director', 'search', 'localStorageExtender', 'jquery.ui.autocomplete.scroll'], function (ko, app, config, util) 
+	{
 		$('#splash').fadeIn();
 		var pageModel = new app();
 		window.pageModel = pageModel;

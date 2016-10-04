@@ -13,7 +13,7 @@ define(['knockout', 'text!./search.html', 'knockout.dataTables.binding', 'facete
 		self.domains = ko.observableArray();
 		self.tabMode = self.model.searchTabMode;
 
-		self.updateCurrentSearchValue = function () {
+		self.updateCurrentSearchValue = function () { // never called
 			self.model.currentSearchValue(escape(self.model.currentSearch()));
 			self.model.currentSearch('');
 		}
