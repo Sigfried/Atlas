@@ -1,5 +1,6 @@
-define(['knockout', 'text!./vocab-experiment.html', 'supergroup', 'ohdsi.util','databindings/d3ChartBinding','knockout.dataTables.binding', 'components/faceted-datatable-cf'], 
-			 function (ko, view, _, util) {
+"use strict";
+define(['knockout', 'text!./vocab-experiment.html', 'supergroup', 'ohdsi.util','react', 'react-dom', 'jsx!reactFiles/vocab', 'databindings/domEl','knockout.dataTables.binding', 'components/faceted-datatable-cf'], 
+			 function (ko, view, _, util, React, ReactDom, Test) {
 	function vocabExperiment(params) {
 		var self = this;
 		if (params.controller) {
@@ -7,6 +8,7 @@ define(['knockout', 'text!./vocab-experiment.html', 'supergroup', 'ohdsi.util','
 		}
 
 		self.model = params.model;
+		/*
 		class ConceptExplorer {
 			constructor(opts, jqEventSpace) {
 				this.opts = opts;
@@ -19,14 +21,34 @@ define(['knockout', 'text!./vocab-experiment.html', 'supergroup', 'ohdsi.util','
 				console.log(arguments);
 				var sg = _.supergroup(data, ['DOMAIN_ID','VOCABULARY_ID','CONCEPT_CLASS_ID']);
 				console.log(sg.flattenTree().namePaths());
+				var test = React.createElement(Test);
+				ReactDom.render(test, domEl);
 				//debugger;
 			}
 		}
-		self.chartConstructor = ConceptExplorer;
+		*/
+
+		self.search = { status: 'init', };
+		self.domEl = ko.observable();
+		if (self.domEl()) {
+			renderStuff(self.search);
+		}
+		self.domEl.subscribe(function() {
+			renderStuff(self.search);
+		});
+		function renderStuff(props) {
+			var comp = ReactDom.render(
+									React.createElement(Test, props),
+									self.domEl(),
+									function() {
+										console.log('reactCB', arguments);
+									});
+		}
+
+		//self.chartConstructor = ConceptExplorer;
 		self.chartOptions = chartOptions();
 		self.chartResolution = ko.observable(); // junk
 		self.chartObj = ko.observable();
-		self.domElement = ko.observable();
 		self.chartData = ko.observableArray(self.chartData && self.chartData() || []);
 		self.messages = ko.observable('no results');
 
@@ -54,9 +76,13 @@ define(['knockout', 'text!./vocab-experiment.html', 'supergroup', 'ohdsi.util','
 													return opts[name] = opt;
 												})
 												.value();
+					ReactDom.render(self.reactTest, self.domEl(),
+													function() {
+														console.log('reactCB', arguments);
+													});
 					//self.fields(fields);
-					self.chartObj().chartSetup(self.domElement(), 460, 150, opts, fields, self.recId);
-					self.chartObj().render(self.chartData(), self.domElement(), 460, 150, opts);
+					//self.chartObj().chartSetup(self.domElement(), 460, 150, opts, fields, self.recId);
+					//self.chartObj().render(self.chartData(), self.domElement(), 460, 150, opts);
 				});
 
 		self.advancedQuery = ko.observable('');
@@ -112,28 +138,14 @@ define(['knockout', 'text!./vocab-experiment.html', 'supergroup', 'ohdsi.util','
 		});
 
 		self.executeSearch = function (query) {
-
-			filters = [];
-			$('#querytext').blur();
-
+			self.search = _.extend(self.search, { query, status: 'launching', });
 			util.cachedAjax({
 				url: self.model.vocabularyUrl() + 'search/' + escape(query),
 				success: function (results) {
-					//debugger;
-					var tempCaption;
-
-					if (decodeURI(query).length > 20) {
-						tempCaption = decodeURI(query).substring(0, 20) + '...';
-					} else {
-						tempCaption = decodeURI(query);
-					}
-
-					lastQuery = {
-						query: escape(query),
-						caption: tempCaption,
-						resultLength: results.length
-					};
-					self.handleSearchResults(results);
+					self.search.status = 'got results';
+					self.search.concepts = results;
+					self.handleSearchResults(self.search);
+					renderStuff(self.search);
 				},
 				error: function (xhr, message) {
 					alert('error while searching ' + message);
@@ -142,33 +154,47 @@ define(['knockout', 'text!./vocab-experiment.html', 'supergroup', 'ohdsi.util','
 		}
 
 		self.promiseQueue = new util.PromiseQueue(2);
-		self.handleSearchResults = function (searchConcepts) {
-			if (searchConcepts.length == 0) {
+		self.handleSearchResults = function (search) {
+			if (search.concepts.length == 0) {
 				$('#modalNoSearchResults').modal('show');
 				return;
 			}
 
-			self.messages(`${lastQuery.query}: ${searchConcepts.length}`);
-			var densityPromise = self.model.loadDensity(searchConcepts);
+			self.messages(`${search.query}: ${search.concepts.length}`);
+			var densityPromise = self.model.loadDensity(search.concepts);
 
 			$.when(densityPromise).done(function () {
+				self.search.status = 'got density';
+				renderStuff(self.search);
 				//debugger;
-				self.model.searchResultsConcepts(searchConcepts);
-				var relatedConceptSearchFuncs = searchConcepts.map(searchConcept => {
-					return () => self.getRelated(searchConcept.CONCEPT_ID)
+				self.model.searchResultsConcepts(search.concepts);
+				var relatedConceptSearchFuncs = search.concepts.map(
+					(searchConcept,i) => {
+						return () => self.getRelated(searchConcept.CONCEPT_ID)
 										.then(function(related) {
+											self.search.status = `got related for concept ${i}`;
 											searchConcept.relatedConcepts = related;
+											renderStuff(self.search);
 											return searchConcept;
 										})
-				});
+					});
 				var conceptPromises = self.promiseQueue.addFuncs(relatedConceptSearchFuncs);
 				window.junk = conceptPromises;
+				renderStuff({'promises': conceptPromises});
 				$.when(...conceptPromises)
 					.then(
-						function(...conceptPromises) { self.chartData(searchConcepts); }, // success
-						function(...conceptPromises) { self.chartData(searchConcepts); } // failure
+						()=>{ 
+									self.search.status = 'success';
+									renderStuff(self.search);
+						},
+						()=>{ 
+									self.search.status = 'failed';
+									renderStuff(self.search);
+						}
+						//function(...conceptPromises) { self.chartData(searchConcepts); }, // success
+						//function(...conceptPromises) { self.chartData(searchConcepts); } // failure
 					);
-				setTimeout(() => self.promiseQueue.flush(), 5000);
+				setTimeout(() => self.promiseQueue.flush(), 55000);
 			});
 		}
 

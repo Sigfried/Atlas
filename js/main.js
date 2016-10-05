@@ -123,6 +123,14 @@ requirejs.config({
 		"sptest": "sptest/sptest",
 		"sptest_smoking": "sptest/sptest_smoking",
 		"vocab-experiment": "components/vocab-experiment",
+		"react": "reactFiles/lib/react-with-addons",
+		"react-dom": "reactFiles/lib/react-dom",
+		"JSXTransformer": "reactFiles/lib/JSXTransformer",
+		"jsx": "reactFiles/lib/jsx",
+	},
+	jsx: {
+		fileExtension: '.jsx',
+		harmony: true,
 	}
 });
 

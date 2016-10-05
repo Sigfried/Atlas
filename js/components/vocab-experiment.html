@@ -175,17 +175,7 @@
 					}"></faceted-datatable-cf>
 			<div class="col-xs-10">
 				<div data-bind="text:messages"/>
-				<div data-bind="d3ChartBinding: 
-					{	
-						chartType:'conceptExplorer',
-						chartConstructor:chartConstructor,
-						chartData:model.searchResultsConcepts,
-						chartOptions:chartOptions,
-						chartResolution:chartResolution,
-						chartObj:chartObj,
-						domElement:domElement,
-					}">
-				</div>
+				<div data-bind="domEl: {	domEl:domEl, }"></div>
 			</div>
 		</div>
 	</div>
