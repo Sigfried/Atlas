@@ -1,6 +1,6 @@
 "use strict";
-define(['knockout', 'text!./vocab-experiment.html', 'supergroup', 'ohdsi.util','react', 'react-dom', 'jsx!reactFiles/vocab', 'databindings/domEl','knockout.dataTables.binding', 'components/faceted-datatable-cf'], 
-			 function (ko, view, _, util, React, ReactDom, Test) {
+define(['knockout', 'text!./vocab-experiment.html', 'supergroup', 'ohdsi.util', 'databindings/domEl','knockout.dataTables.binding', 'components/faceted-datatable-cf'], 
+			 function (ko, view, _, util) {
 	function vocabExperiment(params) {
 		var self = this;
 		if (params.controller) {
@@ -37,12 +37,23 @@ define(['knockout', 'text!./vocab-experiment.html', 'supergroup', 'ohdsi.util','
 			renderStuff(self.search);
 		});
 		function renderStuff(props) {
+			console.log('do something with', props);
+			self.d3el = new util.D3Element(
+				{
+					tag:'div',
+					data: [null],
+					updateCb: function(selection, cbParams={}, passParams={}, thisD3El) {
+						selection.text(cbParams)
+					}
+				}, props, util.elementConvert(self.domEl(), 'd3'));
+			/*
 			var comp = ReactDom.render(
 									React.createElement(Test, props),
 									self.domEl(),
 									function() {
 										console.log('reactCB', arguments);
 									});
+			*/
 		}
 
 		//self.chartConstructor = ConceptExplorer;
@@ -180,14 +191,17 @@ define(['knockout', 'text!./vocab-experiment.html', 'supergroup', 'ohdsi.util','
 					});
 				var conceptPromises = self.promiseQueue.addFuncs(relatedConceptSearchFuncs);
 				window.junk = conceptPromises;
-				renderStuff({'promises': conceptPromises});
+				self.search.promises = conceptPromises;
+				renderStuff(self.search);
 				$.when(...conceptPromises)
 					.then(
 						()=>{ 
+									self.search.promises = conceptPromises;
 									self.search.status = 'success';
 									renderStuff(self.search);
 						},
 						()=>{ 
+									self.search.promises = conceptPromises;
 									self.search.status = 'failed';
 									renderStuff(self.search);
 						}

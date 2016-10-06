@@ -197,43 +197,42 @@ define(['jquery','knockout','lz-string', 'lodash', 'crossfilter/crossfilter'], f
 	 * then calling d3El.data(newData); d3El.run(); will not only update d3El,
 	 * it will also rejoin and update its children with newData.
 	 *
-	 * var d3El = new D3Element({parentElement:p, 
-	 *													data:arrOrObj, // data to be joined to selection
-	 *																				 // if it's scalar, will be turned
-	 *																				 // into single-item array
-	 *													tag: 'div',		 // tag of element to be appended 
-	 *																				 // if necessary to parent
-	 *													classes: ['big','bright'], 
-	 *																				 // to add to element
-	 *																				 // should also insure that 
-	 *																				 // parent.selectAll('tag.classes')
-	 *																				 // only returns elements elements
-	 *																				 // created here
-	 *													enterCb: null, // only needed if you want to
-	 *																				 // run extra code when d3El is
-	 *																				 // first created
-	 *												  exitCb: null,  // only needed if you want
-	 *																				 // to run extra code (transition?)
-	 *																				 // when d3El is removed
-	 *												  cbParams: null,// will be passed to all callbacks
-	 *																				 // along with d3 selection
-	 *												  updateCb:			 // code to run on creation and
-	 *																				 // after possible data changes
-	 *																		function(selection, cbParams, updateOpts) {
-	 *																			// updateOpts are set by calling
-	 *																			// d3El.run(opts) or d3El.update(opts)
-	 *																			// and they are sent to the updateCb not
-	 *																			// just for the d3El in question, but to
-	 *																			// all its children
-	 *																			selection
-	 *																				.attr('x', function(d) {
-	 *																					return cbParams.scale(cbParams.xVal(d))
-	 *																				})
-	 *																		},
-	 *													children: null,// k/v obj with child descriptors (need to document)
-	 *																				 // should only allow children with explicit d3El.addChild
-	 *													dataPropogationSelectors: null, // document when implemented
-	 *												});
+	 * var d3El = new D3Element({
+	 *				data:arrOrObj,  // data to be joined to selection
+	 *												// if it's scalar, will be turned
+	 *												// into single-item array
+	 *				tag: 'div',		  // tag of element to be appended 
+	 *												// if necessary to parent
+	 *				classes: ['big','bright'], 
+	 *												// to add to element
+	 *												// should also insure that 
+	 *												// parent.selectAll('tag.classes')
+	 *												// only returns elements elements
+	 *												// created here
+	 *				enterCb: null,  // only needed if you want to
+	 *												// run extra code when d3El is
+	 *												// first created
+	 *				exitCb: null,   // only needed if you want
+	 *												// to run extra code (transition?)
+	 *												// when d3El is removed
+	 *				cbParams: null, // will be passed to all callbacks
+	 *												// along with d3 selection
+	 *				updateCb:			  // code to run on creation and
+	 *												// after possible data changes  // function(selection, cbParams, updateOpts) {
+	 *												// updateOpts are set by calling
+	 *												// d3El.run(opts) or d3El.update(opts)
+	 *												// and they are sent to the updateCb not
+	 *												// just for the d3El in question, but to
+	 *												// all its children
+	 *																selection
+	 *																		.attr('x', function(d) {
+	 *																				return cbParams.scale(cbParams.xVal(d))
+	 *																		})
+	 *																},
+	 *				children: null, // k/v obj with child descriptors (need to document)
+	 *												// should only allow children with explicit d3El.addChild
+	 *				dataPropogationSelectors: null, // document when implemented
+	 *		});
 	 *
 	 * d3El.run() returns the d3 selection after performing joins and running callbacks.
 	 * you can also get the d3 selection with d3El.selectAll();
