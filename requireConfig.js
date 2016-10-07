@@ -1,3 +1,4 @@
+
 requirejs.config({
 	waitSeconds: 60, // FOR DEVELOPMENT, REMOVE WHEN NOT NEEDED? default is 7
 	//urlArgs: "bust=" + (new Date()).getTime(),
@@ -39,7 +40,82 @@ requirejs.config({
 			name: 'aurelia-templating-router',
 			location: '../node_modules/aurelia-templating-router/dist/amd',
 			main : 'aurelia-templating-router'
-		}
+		},
+		{
+			name: 'aurelia-polyfills',
+			location: '../node_modules/aurelia-polyfills/dist/amd',
+			main : 'aurelia-polyfills'
+		},
+		{
+			name: 'aurelia-bootstrapper',
+			location: '../node_modules/aurelia-bootstrapper/dist/amd',
+			main : 'aurelia-bootstrapper'
+		},
+		{
+			name: 'aurelia-dependency-injection',
+			location: '../node_modules/aurelia-dependency-injection/dist/amd',
+			main : 'aurelia-dependency-injection'
+		},
+		{
+			name: 'aurelia-binding',
+			location: '../node_modules/aurelia-binding/dist/amd',
+			main : 'aurelia-binding'
+		},
+		{
+			name: 'aurelia-templating',
+			location: '../node_modules/aurelia-templating/dist/amd',
+			main : 'aurelia-templating'
+		},
+		{
+			name: 'aurelia-task-queue',
+			location: '../node_modules/aurelia-task-queue/dist/amd',
+			main : 'aurelia-task-queue'
+		},
+		{
+			name: 'aurelia-logging',
+			location: '../node_modules/aurelia-logging/dist/amd',
+			main : 'aurelia-logging'
+		},
+		{
+			name: 'aurelia-framework',
+			location: '../node_modules/aurelia-framework/dist/amd',
+			main : 'aurelia-framework'
+		},
+		{
+			name: 'aurelia-path',
+			location: '../node_modules/aurelia-path/dist/amd',
+			main : 'aurelia-path'
+		},
+		{
+			name: 'aurelia-loader',
+			location: '../node_modules/aurelia-loader/dist/amd',
+			main : 'aurelia-loader'
+		},
+		{
+			name: 'aurelia-metadata',
+			location: '../node_modules/aurelia-metadata/dist/amd',
+			main : 'aurelia-metadata'
+		},
+		{
+			name: 'aurelia-loader-default',
+			location: '../node_modules/aurelia-loader-default/dist/amd',
+			main : 'aurelia-loader-default'
+		},
+		{
+			name: 'aurelia-pal',
+			location: '../node_modules/aurelia-pal/dist/amd',
+			main : 'aurelia-pal'
+		},
+		{
+			name: 'aurelia-pal-browser',
+			location: '../node_modules/aurelia-pal-browser/dist/amd',
+			main : 'aurelia-pal-browser'
+		},
+		{
+			name: 'aurelia-knockout',
+			location: '../node_modules/aurelia-knockout/dist/amd',
+			main : 'aurelia-knockout'
+		},
 	],
 	shim: {
 		"colorbrewer": {
@@ -69,21 +145,6 @@ requirejs.config({
 				 'css!styles/jquery.dataTables.colVis.css'
 	],
 	paths: {
-		'aurelia-bootstrapper-webpack': '../node_modules/aurelia-bootstrapper-webpack/dist/amd/aurelia-bootstrapper-webpack',
-		'aurelia-framework': '../node_modules/aurelia-framework/dist/amd/aurelia-framework',
-		'aurelia-metadata': '../node_modules/aurelia-metadata/dist/amd/aurelia-metadata',
-		'aurelia-binding': '../node_modules/aurelia-binding/dist/amd/aurelia-binding',
-		'aurelia-templating': '../node_modules/aurelia-templating/dist/amd/aurelia-templating',
-		'aurelia-pal': '../node_modules/aurelia-pal/dist/amd/aurelia-pal',
-		'aurelia-pal-browser': '../node_modules/aurelia-pal-browser/dist/amd/aurelia-pal-browser',
-		'aurelia-polyfills': '../node_modules/aurelia-polyfills/dist/amd/aurelia-polyfills',
-		'aurelia-loader-default': '../node_modules/aurelia-loader-default/dist/amd/aurelia-loader-default',
-		'aurelia-loader': '../node_modules/aurelia-loader/dist/amd/aurelia-loader',
-		'aurelia-loader-webpack': '../node_modules/aurelia-loader-webpack/dist/amd/aurelia-loader-webpack',
-		'aurelia-path': '../node_modules/aurelia-path/dist/amd/aurelia-path',
-		'aurelia-dependency-injection': '../node_modules/aurelia-dependency-injection/dist/amd/aurelia-dependency-injection',
-		'aurelia-task-queue': '../node_modules/aurelia-task-queue/dist/amd/aurelia-task-queue',
-		'aurelia-logging': '../node_modules/aurelia-logging/dist/amd/aurelia-logging',
 		"jquery": "https://code.jquery.com/jquery-1.11.2.min",
 		"jquery-ui": "https://code.jquery.com/ui/1.11.4/jquery-ui.min",
 		"bootstrap": "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min",
