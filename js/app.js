@@ -27,19 +27,19 @@ define(['jquery', 'knockout', 'jnj_chart', 'd3', 'ohdsi.util', 'appConfig', 'fac
 						});
 					},
 					'/cohortdefinitions': function () {
-						require(['cohort-definitions', 'cohort-definition-manager', 'cohort-definition-browser'], function () {
+						require(['./components/cohort-definitions', 'cohort-definition-manager', 'cohort-definition-browser'], function () {
 							self.currentView('cohortdefinitions');
 						});
 					},
 					'/cohortdefinition/:cohortDefinitionId:': function (cohortDefinitionId) {
-						require(['cohortbuilder/CohortDefinition', 'components/atlas.cohort-editor', 'cohort-definitions', 'cohort-definition-manager', 'cohort-definition-browser', 'conceptset-editor', 'report-manager', 'explore-cohort'], function (CohortDefinition) {
+						require(['cohortbuilder/CohortDefinition', 'components/atlas.cohort-editor', './components/cohort-definitions', 'cohort-definition-manager', 'cohort-definition-browser', 'conceptset-editor', 'report-manager', 'explore-cohort'], function (CohortDefinition) {
 							self.currentView('cohortdefinition');
 							self.currentCohortDefinitionMode('definition');
 							self.loadCohortDefinition(cohortDefinitionId, null, 'cohortdefinition', 'details');
 						});
 					},
 					'/cohortdefinition/:cohortDefinitionId/conceptset/:conceptSetId/:mode:': function (cohortDefinitionId, conceptSetId, mode) {
-						require(['report-manager', 'cohortbuilder/CohortDefinition', 'components/atlas.cohort-editor', 'cohort-definitions', 'cohort-definition-manager', 'cohort-definition-browser', 'conceptset-editor','explore-cohort'], function (CohortDefinition) {
+						require(['report-manager', 'cohortbuilder/CohortDefinition', 'components/atlas.cohort-editor', './components/cohort-definitions', 'cohort-definition-manager', 'cohort-definition-browser', 'conceptset-editor','explore-cohort'], function (CohortDefinition) {
 							self.currentView('cohortdefinition');
 							self.currentCohortDefinitionMode('conceptsets');
 							//if (!ohdsiUtil.hasState('cohortDefTab'))
@@ -785,14 +785,14 @@ define(['jquery', 'knockout', 'jnj_chart', 'd3', 'ohdsi.util', 'appConfig', 'fac
 			return '<a class="' + valid + '" href=\"#/concept/' + d.CONCEPT_ID + '\">' + d.CONCEPT_NAME + '</a>';
 		}
 		self.renderBoundLink = function (s, p, d) {
-				return '<a href=\"#/concept/' + d.concept.CONCEPT_ID + '\">' + d.concept.CONCEPT_NAME + '</a>';
-			}
+			return '<a href=\"#/concept/' + d.concept.CONCEPT_ID + '\">' + d.concept.CONCEPT_NAME + '</a>';
+		}
 			// for the current selected concepts:
 			// update the export panel
 			// resolve the included concepts and update the include concept set identifier list
 		self.resolveConceptSetExpression = function () {
 			self.resolvingConceptSetExpression(true);
-			var conceptSetExpression = '{"items" :' + ko.toJSON(self.selectedConcepts()) + '}';
+			var conceptSetExpression = `{"items" :${ko.toJSON(self.selectedConcepts())}}`;
 			var highlightedJson = self.syntaxHighlight(conceptSetExpression);
 			self.currentConceptSetExpressionJson(highlightedJson);
 			var conceptIdentifierList = [];
