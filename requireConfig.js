@@ -77,6 +77,41 @@ requirejs.config({
 			main : 'aurelia-logging'
 		},
 		{
+			name: 'aurelia-route-recognizer',
+			location: '../node_modules/aurelia-route-recognizer/dist/amd',
+			main : 'aurelia-route-recognizer'
+		},
+		{
+			name: 'aurelia-router',
+			location: '../node_modules/aurelia-router/dist/amd',
+			main : 'aurelia-router'
+		},
+		{
+			name: 'aurelia-history',
+			location: '../node_modules/aurelia-history/dist/amd',
+			main : 'aurelia-history'
+		},
+		{
+			name: 'aurelia-history-browser',
+			location: '../node_modules/aurelia-history-browser/dist/amd',
+			main : 'aurelia-history-browser'
+		},
+		{
+			name: 'aurelia-logging-console',
+			location: '../node_modules/aurelia-logging-console/dist/amd',
+			main : 'aurelia-logging-console'
+		},
+		{
+			name: 'aurelia-templating-binding',
+			location: '../node_modules/aurelia-templating-binding/dist/amd',
+			main : 'aurelia-templating-binding'
+		},
+		{
+			name: 'aurelia-event-aggregator',
+			location: '../node_modules/aurelia-event-aggregator/dist/amd',
+			main : 'aurelia-event-aggregator'
+		},
+		{
 			name: 'aurelia-framework',
 			location: '../node_modules/aurelia-framework/dist/amd',
 			main : 'aurelia-framework'
@@ -166,6 +201,7 @@ requirejs.config({
 		"conceptset-browser": "components/conceptset-browser",
 		"conceptset-editor": "components/conceptset-editor",
 		"conceptset-manager": "components/conceptset-manager",
+		"cohort-definitions": "components/cohort-definitions",
 		"cohort-comparison-manager": "components/cohort-comparison-manager",
 		"job-manager": "components/job-manager",
 		"importer": "components/importer",
