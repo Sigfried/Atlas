@@ -4,7 +4,7 @@ define(
     [
         'jquery',
         'knockout',
-				'jquery-ui',
+				/*'jquery-ui',*/
     ],
 
     function ($, ko) {

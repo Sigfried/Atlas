@@ -5,7 +5,7 @@ define(['jquery', 'knockout', 'jnj_chart'], function ($, ko, jnjChart) {
 			var chartType = ko.utils.unwrapObservable(va.chartType);
 			var chartOptions = ko.utils.unwrapObservable(va.chartOptions)||{};
 			var chartConstructor = ko.utils.unwrapObservable(va.chartConstructor)
-															|| new jnjChart[chartType];
+															|| jnjChart[chartType];
 			var jqEventSpace = ko.utils.unwrapObservable(va.jqEventSpace)||{};
 			var chart = new chartConstructor(chartOptions, jqEventSpace);
 			if (va.chartObj) {

@@ -1,6 +1,9 @@
 "use strict";
-define(['knockout', 'text!./profile-manager.html', 'd3', 'appConfig', 'lodash', 'crossfilter/crossfilter', 'ohdsi.util', 'd3_tip', 'knockout.dataTables.binding', 'components/faceted-datatable-cf-profile', 'components/profileChart', 'css!./styles/profileManager.css'],
-	function (ko, view, d3, config, _, crossfilter, util) {
+define(['knockout', 'text!./profile-manager.html', 'appConfig', 'lodash', 'ohdsi.util', 'knockout.dataTables.binding', 'components/faceted-datatable-cf-profile', 'components/profileChart', 'css!styles/profileManager.css'],
+	function (ko, view, config, _, util) {
+		var d3 = require('d3');
+		require('d3-tip');
+		var crossfilter = require('crossfilter');
 
 		var reduceToRecs = [ // crossfilter group reduce functions where group val
 												 // is an array of recs in the group
@@ -10,10 +13,7 @@ define(['knockout', 'text!./profile-manager.html', 'd3', 'appConfig', 'lodash', 
 		];
 
 		function profileManager(params) {
-			window.d3 = d3;
-			window._ = _;
 			var self = this;
-			window.profileManager = self;
 			self.config = config;
 			self.services = config.services[0];
 			self.model = params.model;

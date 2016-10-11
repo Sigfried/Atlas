@@ -1,4 +1,4 @@
-define(["jquery", "d3", "jnj_chart", "common", "datatables.net", "colvis"], function ($, d3, jnj_chart, common) {
+define(["jquery", "d3", "jnj_chart", "common", "jquery.dataTables.min", "jquery.dataTables.colVis.min"], function ($, d3, jnj_chart, common) {
 	var measurement_report = {};
 	var threshold;
 	var datatable;

@@ -1,15 +1,15 @@
 define(['knockout', 
 				'text!./ir-manager.html', 
-				'webapi/IRAnalysisAPI',
-				'webapi/SourceAPI',
-				'webapi/CohortDefinitionAPI',
+				'IRAnalysisAPI',
+				'SourceAPI',
+				'CohortDefinitionAPI',
 				'iranalysis/IRAnalysisDefinition', 
 				'iranalysis/IRAnalysisExpression', 
 				'ohdsi.util',
-				'iranalysis', 
-				'databindings', 
+				'iranalysis/main',
+				'databindings/main', 
 				'conceptsetbuilder/components', 
-				'circe'
+				'circe/main'
 ], function (ko, template, iraAPI, sourceAPI, cohortAPI, IRAnalysisDefinition, IRAnalysisExpression, ohdsiUtil) {
 	function IRAnalysisManager(params) {
 		

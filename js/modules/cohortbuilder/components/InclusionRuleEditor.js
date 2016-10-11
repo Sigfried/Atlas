@@ -1,7 +1,7 @@
 define(['knockout',
 				'text!./InclusionRuleEditorTemplate.html', 
 				'cohortbuilder/components/CriteriaGroup',
-				'ko.sortable'
+				/*'ko.sortable'*/
 			 ], 
 function (
 ko,

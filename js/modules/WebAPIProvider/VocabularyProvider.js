@@ -2,7 +2,7 @@ define(function (require, exports) {
 
 	var $ = require('jquery');
 	var config = require('appConfig');
-	var sourceAPI = require('webapi/SourceAPI');
+	var sourceAPI = require('SourceAPI');
 	
 	var loadedPromise = $.Deferred();
 	loadedPromise.resolve();

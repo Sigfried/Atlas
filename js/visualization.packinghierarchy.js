@@ -1,4 +1,4 @@
-define(['jquery', 'd3', 'd3_tip'], function ($, d3) {
+define(['jquery', 'd3', 'd3-tip'], function ($, d3) {
 	var packingHierarchy = function () {
 
 		var ph = this;

@@ -1,5 +1,8 @@
-define(['knockout', 'text!./explore-cohort.html', 'd3', 'appConfig', 'lodash', 'crossfilter/crossfilter', 'd3_tip', 'knockout.dataTables.binding', 'components/faceted-datatable-cf-profile', 'css!./styles/exploreCohort.css'],
-	function (ko, view, d3, config, lodash, crossfilter) {
+define(['knockout', 'text!./explore-cohort.html', 'appConfig', 'lodash', 'knockout.dataTables.binding', 'components/faceted-datatable-cf-profile', 'css!styles/exploreCohort.css'],
+	function (ko, view, config, lodash ) {
+		var d3 = require('d3');
+		require('d3-tip');
+		var crossfilter = require('crossfilter');
 
 		function exploreCohort(params) {
 			var self = this;

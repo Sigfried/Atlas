@@ -1,4 +1,4 @@
-define(['knockout', 'text!./CohortConceptSetBrowserTemplate.html', 'vocabularyprovider', 'appConfig', 'conceptsetbuilder/InputTypes/ConceptSet', 'databindings'
+define(['knockout', 'text!./CohortConceptSetBrowserTemplate.html', 'vocabularyprovider', 'appConfig', 'conceptsetbuilder/InputTypes/ConceptSet', 'databindings/main'
 ], function (ko, template, VocabularyProvider, appConfig, ConceptSet) {
 	function CohortConcptSetBrowser(params) {
 		var self = this;

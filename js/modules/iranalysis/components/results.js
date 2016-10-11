@@ -1,8 +1,8 @@
 define(['knockout',
 				'jquery',
 				'text!./results.html',
-				'webapi/IRAnalysisAPI',
-				'databindings'
+				'IRAnalysisAPI',
+				'databindings/main'
 ], function (
 	ko,
 	$,

@@ -1,14 +1,14 @@
 define(['knockout',
         'text!./negative-controls.html',
         'appConfig',
-        'webapi/EvidenceAPI',
-        'webapi/CDMResultsAPI',
-        'webapi/ConceptSetAPI',
+        'EvidenceAPI',
+        'CDMResultsAPI',
+        'ConceptSetAPI',
         'lodash', 
         'ohdsi.util',
         'knockout.dataTables.binding',
         'components/faceted-datatable-cf',
-        'databindings'
+        'databindings/main'
 ], function (ko, view, config, evidenceAPI, cdmResultsAPI, conceptSetAPI, lodash) {
     function negativeControls(params) {
         var self = this;

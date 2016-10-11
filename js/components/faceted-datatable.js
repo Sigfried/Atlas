@@ -1,4 +1,4 @@
-define(['knockout', 'text!./faceted-datatable.html', 'facets', 'knockout.dataTables.binding', 'colvis'], function (ko, view, facetEngine) {
+define(['knockout', 'text!./faceted-datatable.html', 'facets', 'knockout.dataTables.binding', 'jquery.dataTables.colVis.min'], function (ko, view, facetEngine) {
 
 	function facetedDatatable(params) {
 		var self = this;

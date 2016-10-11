@@ -1,4 +1,4 @@
-define(['knockout', 'text!./conceptset-browser.html', 'appConfig', 'bootstrap', 'circe', ], function (ko, view, config) {
+define(['knockout', 'text!./conceptset-browser.html', 'appConfig', 'bootstrap', 'circe/main', ], function (ko, view, config) {
 	function conceptsetBrowser(params) {
 		var self = this;
 		self.model = params.model;

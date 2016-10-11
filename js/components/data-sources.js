@@ -11,8 +11,8 @@ define([
     'text!./data-sources.html',
 		'appConfig',
     'bootstrap',
-    'd3_tip',
-    'knockout-amd-helpers'
+    'd3-tip',
+    'knockout-amd-helpers.min'
 ], function ($, d3, ko, common, reports, jnj_chart, view, config) {
 	function dataSources(params) {
 		var self = this;

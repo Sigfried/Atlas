@@ -1,5 +1,5 @@
 		(function () {
-			define(["jquery", "common", "datatables.net", "colvis"], function ($, common) {
+			define(["jquery", "common", "jquery.dataTables.min", "jquery.dataTables.colVis.min"], function ($, common) {
 				var achilles_heel = {};
 
 				achilles_heel.render = function (datasource) {

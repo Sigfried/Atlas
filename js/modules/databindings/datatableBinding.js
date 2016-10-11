@@ -1,4 +1,4 @@
-define(['jquery', 'knockout', 'datatables.net'], function ($, ko) {
+define(['jquery', 'knockout', "jquery.dataTables.min"], function ($, ko) {
 
 	function renderSelected(s, p, d) {
 		return '<span class="fa fa-check-circle"></span>';

@@ -1,10 +1,10 @@
 define(['jquery', 'knockout', 'text!./cohort-comparison-manager.html', 'lodash', 
-				'webapi/CohortDefinitionAPI', 'appConfig', 'ohdsi.util', 
+				'CohortDefinitionAPI', 'appConfig', 'ohdsi.util', 
 				'cohortcomparison/ComparativeCohortAnalysis', 'cohortbuilder/options', 
 				'cohortbuilder/CohortDefinition', 'vocabularyprovider', 
 				'conceptsetbuilder/InputTypes/ConceptSet', 
-				'nvd3', 'databindings/d3ChartBinding','components/faceted-datatable-cf',
-				'css!./styles/nv.d3.min.css'],
+				'nvd3', 'd3ChartBinding','components/faceted-datatable-cf',
+				'css!styles/nv.d3.min.css'],
 	function ($, ko, view, _, cohortDefinitionAPI, config, ohdsiUtil, 
 						ComparativeCohortAnalysis, options, CohortDefinition, vocabularyAPI, 
 						ConceptSet) {

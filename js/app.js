@@ -1,7 +1,9 @@
-define(['bootstrap', 'jquery', 'knockout', 'jnj_chart', 'd3', 'ohdsi.util', 
-			  'appConfig', 'facets', 'knockout-persist', 'css!styles/tabs.css', 
-				'css!styles/buttons.css'], 
-function (bootstrap, $, ko, jnj_chart, d3, ohdsiUtil, appConfig) {
+
+define(['bootstrap', 'jquery', 'knockout', 'ohdsi.util', 'd3',
+			  'appConfig', 'facets', 'knockout-persist', 'css!styles/tabs', 
+				'css!styles/buttons', 'director'], 
+function (bootstrap, $, ko, ohdsiUtil, d3, appConfig) {
+	console.log(d3.version);
 	console.log('app', arguments);
 	var OrigAtlasAppModel = function() {
 		this.foo = 'bar';
@@ -236,7 +238,14 @@ function (bootstrap, $, ko, jnj_chart, d3, ohdsiUtil, appConfig) {
 							self.currentView('sptest_smoking');
 						});
 					},
-					}
+					'/vocab-experiment\/?(.*)': function(path) {
+						/*
+						require(['./components/vocab-experiment'], function () {
+							debugger;
+						});
+						*/
+					},
+				}
 				self.router = new Router(routes).configure(routerOptions);
 				self.router.init('/');
 				self.applicationStatus('running');

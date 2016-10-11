@@ -29,8 +29,7 @@
 *			  storageGet
 *				SharedCrossfilter
 */
-define(['jquery','knockout','lz-string', 'lodash', 'crossfilter/crossfilter'], function($,ko, LZString, _, crossfilter) {
-
+define(['jquery','knockout','lz-string', 'lodash','crossfilter'], function($,ko, LZString, _, crossfilter) {
 	var DEBUG = true;
 	var ALLOW_CACHING = [
 		//'.*',						// REMEMBER TO COMMENT THIS LINE OUT WHEN NOT DEVELOPING!!

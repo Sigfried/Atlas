@@ -1,5 +1,5 @@
 (function () {
-	define(["jquery", "d3", "jnj_chart", "common", "datatables.net"], function ($, d3, jnj_chart, common) {
+	define(["jquery", "d3", "jnj_chart", "common", "jquery.dataTables.min"], function ($, d3, jnj_chart, common) {
 		var data_density = {};
 		var threshold;
 

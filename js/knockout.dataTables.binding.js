@@ -1,4 +1,4 @@
-define(['jquery', 'knockout', 'datatables.net','datatables.net-buttons','datatables.net-buttons-html5'], function ($, ko) {
+define(['jquery', 'knockout', 'jquery.dataTables.min','jquery.dataTables.buttons.min','jquery.dataTables.buttons.html5.min'], function ($, ko) {
 
 	function renderSelected(s, p, d) {
 		return '<span class="fa fa-check"></span>';

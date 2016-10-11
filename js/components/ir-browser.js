@@ -1,9 +1,9 @@
 define(['knockout', 
         'text!./ir-browser.html', 
         'appConfig',
-        'webapi/IRAnalysisAPI',
+        'IRAnalysisAPI',
         'faceted-datatable',
-        'iranalysis'
+        'iranalysis/main'
 ], function (ko, view, config, iraAPI) {
 	function irBrowser(params) {
 		var self = this;

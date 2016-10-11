@@ -1,7 +1,7 @@
 define(['knockout', 'text!./cohort-definition-manager.html',
 				'appConfig',
 				'cohortbuilder/CohortDefinition',
-				'webapi/CohortDefinitionAPI',
+				'CohortDefinitionAPI',
 				'ohdsi.util',
         'cohortbuilder/CohortExpression',
 				'cohortbuilder/InclusionRule',
@@ -9,7 +9,7 @@ define(['knockout', 'text!./cohort-definition-manager.html',
 				'cohortbuilder/components/FeasibilityReportViewer',
 				'knockout.dataTables.binding',
 				'faceted-datatable',
-				'databindings', 
+				'databindings/main', 
 				'cohortdefinitionviewer/expressionCartoonBinding',
 ], function (ko, view, config, CohortDefinition, cohortDefinitionAPI, util, CohortExpression, InclusionRule, ConceptSet) {
 

@@ -26,7 +26,7 @@
 		(not sure if this invalidates comments above...rushing to meet deadline)
  */
 "use strict";
-define(['knockout', 'text!./faceted-datatable-cf.html', 'lodash', 'ohdsi.util', 'knockout.dataTables.binding', 'colvis'], 
+define(['knockout', 'text!./faceted-datatable-cf.html', 'lodash', 'ohdsi.util', 'knockout.dataTables.binding', 'jquery.dataTables.colVis.min'], 
 			 function (ko, view, _, util) {
 
 	var reduceToRecs = [(p, v, nf) => p.concat(v), (p, v, nf) => _.without(p, v), () => []];

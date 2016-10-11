@@ -1,5 +1,5 @@
-define(['knockout', 'text!./sptest.html','lodash','ohdsi.util','databindings/d3ChartBinding','components/faceted-datatable-cf',], 
-			 function (ko, view, _, util) {
+define(['knockout', 'text!./sptest.html','lodash','ohdsi.util','d3', 'databindings/d3ChartBinding','components/faceted-datatable-cf',], 
+			 function (ko, view, _, util, d3) {
 	var getData = _.once(function(self) {
 		var request = util.cachedAjax({
 			url: self.jsonFile,

@@ -1,9 +1,9 @@
 define(['knockout',
 				'jquery',
 				'text!./report.html',
-				'webapi/IRAnalysisAPI',
+				'IRAnalysisAPI',
 				'd3',
-				'databindings',
+				'databindings/main',
 				'../databindings/irTreemapLegend',
 				'css!cohortbuilder/css/report.css'
 ], function (

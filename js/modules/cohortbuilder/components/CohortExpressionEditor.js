@@ -1,5 +1,5 @@
 define(['knockout', '../options', '../CriteriaGroup', '../CriteriaTypes', '../CohortExpression', '../InclusionRule', 'text!./CohortExpressionEditorTemplate.html', './EndStrategyEditor',
-				'databindings', 'conceptpicker/ConceptPicker', 'css!../css/builder.css', 'css!../css/ddslick.criteria.css', 'ko.sortable'
+				'databindings/main', 'conceptpicker/ConceptPicker', 'css!builder.css', 'css!ddslick.criteria.css', /*'ko.sortable'*/
 			 ], function (ko, options, CriteriaGroup, criteriaTypes, CohortExpression, InclusionRule, template) {
 	
 	function CohortExpressionEditorViewModel(params) {

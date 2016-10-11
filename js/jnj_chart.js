@@ -1,18 +1,21 @@
 "use strict";
+/* in webpack this wasn't working
 (function (root, factory) {
 	if (typeof define === 'function' && define.amd) {
 		// AMD. Register as an anonymous module with d3 as a dependency.
-		define(["jquery", "d3", "lodash", "ohdsi.util", "d3_tip"], factory)
+		define(["jquery", "lodash", "ohdsi.util"], factory)
 	} else {
 		// Browser global.
-		root.jnj_chart = factory(root.$, root.d3, root._, root.util)
+		root.jnj_chart = factory(root.$, root._, root.util)
 	}
-}(this, function (jQuery, d3, _, util) {
+}(this, function (jQuery, _, util) {
+}))
+*/
+define(["jquery", "lodash", "ohdsi.util", "d3", "d3-tip"], function(jQuery, _, util, d3) {
 	var module = {
 		version: "0.0.1"
 	};
 	var $ = jQuery;
-	var d3 = d3;
 	var DEBUG = true;
 
 	// should module.util functions be moved to ohdsi.util?
@@ -782,9 +785,9 @@
 				.attr("title", function (d) {
 					temp_title = d[label] + ": " + commaseparated(d[value], ",")
 					if (total > 0) {
-						temp_title = temp_title + ' (' + formatpercent(d[value] / total) + ')';
+						temp_title = temp_title + ` (${formatpercent(d[value] / total)})`;
 					} else {
-						temp_title = temp_title + ' (' + formatpercent(0) + ')';
+						temp_title = temp_title + ` (${formatpercent(0)})`;
 					}
 					return temp_title;
 				})
@@ -3111,4 +3114,4 @@
 	}
 
 	return module;
-}));
+});
