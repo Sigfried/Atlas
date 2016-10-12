@@ -1,13 +1,28 @@
-define(['bootstrap', 'jquery', 'knockout', 'jnj_chart', 'd3', 'ohdsi.util', 
-			  'appConfig', 'facets', 'knockout-persist', 'css!styles/tabs.css', 
-				'css!styles/buttons.css'], 
-function (bootstrap, $, ko, jnj_chart, d3, ohdsiUtil, appConfig) {
-	console.log('app', arguments);
-	var OrigAtlasAppModel = function() {
+import 'bootstrap';
+import ko from 'knockout';
+import jnj_chart from 'jnj_chart';
+import d3 from 'd3';
+import ohdsiUtil from 'ohdsi.util';
+import appConfig from 'appConfig';
+import 'director';
+import {KnockoutBindable} from 'aurelia-knockout';
+import 'knockout-persist';
+import 'css!styles/tabs.css';
+import 'css!styles/buttons.css';
+//import * as aurelia from 'aurelia-bootstrapper';
+
+
+export class App {
+	constructor() {
+		this.firstName = 'John';
+		this.lastName = ko.observable('Doe');
+		this.fromProp = 'FROM PROP';
 		this.foo = 'bar';
 		this.eek = 'urk';
 		this.knockknock = "who's there?";
 		console.log('appmodel', arguments);
+		let kb = new KnockoutBindable();
+		kb.applyBindableValues({eek:'boundable',foo:'whatever'}, this);
 		$.support.cors = true;
 		var self = this;
 		self.pageModel = self; // combining main and app from orig knockout
@@ -236,7 +251,13 @@ function (bootstrap, $, ko, jnj_chart, d3, ohdsiUtil, appConfig) {
 							self.currentView('sptest_smoking');
 						});
 					},
+					'/vocab-experiment/?(.*)': function (path) {
+						require(['es6!vocab-experiment'], function (vocab) {
+							console.log(path, vocab);
+							self.currentView('vocab-experiment');
+						});
 					}
+				}
 				self.router = new Router(routes).configure(routerOptions);
 				self.router.init('/');
 				self.applicationStatus('running');
@@ -1036,7 +1057,7 @@ function (bootstrap, $, ko, jnj_chart, d3, ohdsiUtil, appConfig) {
 			var cohortDefinitionId = self.currentCohortDefinition().id();
 			$.ajax(appConfig.services[0].url + source.sourceKey + '/cohortresults/' + cohortDefinitionId + '/analyses', {
 				success: function (analyses) {
-					sourceAnalysesStatus = {};
+					let sourceAnalysesStatus = {};
 					// initialize cohort analyses status
 					for (var i = 0; i < self.cohortAnalyses().length; i++) {
 						// If the analysis id's in the array returned from the ws call (analyses)
@@ -2006,6 +2027,6 @@ function (bootstrap, $, ko, jnj_chart, d3, ohdsiUtil, appConfig) {
 				 	pageModel.currentIRAnalysisDirtyFlag().isDirty() ||
 				 	pageModel.currentCohortComparisonDirtyFlag().isDirty());
 		});
+		console.log('appinitfailed', self.appInitializationFailed());
 	}
-	return OrigAtlasAppModel;
-});
+}

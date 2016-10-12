@@ -3,12 +3,12 @@ define([], function () {
 
 	config.services = [
 		{
-			name: 'ohdsi',
-			url: 'http://54.242.168.196/WebAPI/',
-		},
-		{
 			name: 'Local',
 			url: 'http://localhost:8080/WebAPI/'
+		},
+		{
+			name: 'ohdsi',
+			url: 'http://54.242.168.196/WebAPI/',
 		},
 		/*
 		{

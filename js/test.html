@@ -1,0 +1,10 @@
+<template>
+  <input value.bind="firstName">
+  <input value.bind="lastName">
+
+  <button click.trigger="sayHello()">Say Hello</button>
+	<div knockout>
+		<div data-bind="text: 'data-bound'"></div>
+		<div data-bind="text: fromProp"></div>
+	</div>
+</template>

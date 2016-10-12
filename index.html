@@ -23,23 +23,20 @@
 	<!-- cartoon.css, maybe others, loaded dynamically -->
 
 	<title data-bind="text: pageTitle">ATLAS</title>
-	<title data-bind="text: pageTitle">ATLAS</title>
-+	<title data-bind="text: pageTitle">ATLAS</title>
 	<!--Adobe Edge Runtime-->
 	<meta http-equiv="X-UA-Compatible" content="IE=Edge">
 
 	<script src='node_modules/requirejs/require.js' type="text/javascript"></script>
-	<script src='requireConfig.js' type="text/javascript"></script>
-	<script src='bundle.js' type="text/javascript"></script>
+	<script src='js/main.js' type="text/javascript"></script>
 	<script>
 		//require(["requirejs"]);
 		//require(["babel-core"]);
-		//require(["aurelia-bootstrapper"]);
+		require(["aurelia-bootstrapper"]);
 	</script>
 
 </head>
 
-<body>
+<body >
 </body>
 
 </html>
