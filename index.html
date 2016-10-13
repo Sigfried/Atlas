@@ -37,6 +37,198 @@
 </head>
 
 <body >
+	<div>
+		<div id="splash">
+			<div id="stage" class="EDGE-8182598">
+			</div>
+			<div id="heading">
+				<a href="#/search">ATLAS</a>
+			</div>
+			<div data-bind="text:applicationStatus" id="status"></div>
+			<div id="activityTimeline" data-bind="if:applicationStatus=='running'">
+			</div>
+		</div>
+
+		<!-- ko if: pageModel.currentView() != 'splash' -->
+		<div id="wrapperLeftMenu" style="display:none;" data-bind="visible:!pageModel.minibar();">
+			<div id="wrapperLogo">
+				<a href="#/splash">ATLAS</a>
+			</div>
+
+			<div class="list-group">
+				<a class="list-group-item" href="#/home"><i class="fa fa-fw fa-home" aria-hidden="true"></i>&nbsp;Home</a>
+				<!-- <a class="list-group-item" href="#/datasources"><i class="fa fa-fw fa-database" aria-hidden="true"></i>&nbsp;Data Sources</a> -->
+				<a class="list-group-item" href="#/search"><i class="fa fa-fw fa-search" aria-hidden="true"></i>&nbsp;Vocabulary</a>
+				<a class="list-group-item" href="#/conceptsets"><i class="fa fa-fw fa-shopping-cart" aria-hidden="true"></i>&nbsp;Concept Sets</a>
+				<a class="list-group-item" href="#/cohortdefinitions"><i class="fa fa-fw  fa-users" aria-hidden="true"></i>&nbsp;Cohorts</a>
+				<a class="list-group-item" data-bind="css: irStatusCss, attr: {href: irAnalysisURL}"><i class="fa fa-fw fa-bolt" aria-hidden="true"></i>&nbsp;Incidence Rates</a>
+				<a class="list-group-item" href="#/profiles"><i class="fa fa-fw fa-user" aria-hidden="true"></i>&nbsp;Profiles</a>
+				<a class="list-group-item" data-bind="css: ccaCss, attr: {href: ccaURL}"><i class="fa fa-fw fa-balance-scale" aria-hidden="true"></i>&nbsp;Estimation</a>
+				<a class="list-group-item" href="#/jobs"><i class="fa fa-fw fa-tasks" aria-hidden="true"></i>&nbsp;Jobs</a>
+				<a class="list-group-item" href="#/configure"><i class="fa fa-fw fa-cogs" aria-hidden="true"></i>&nbsp;Configuration</a>
+				<a class="list-group-item" target="_blank" href="https://github.com/ohdsi/atlas/issues" aria-hidden="true"><i class="fa fa-fw fa-comment"></i>&nbsp;Feedback</a>
+			</div>
+		</div>
+		<!-- /ko -->
+		<div data-bind="if:currentView() != 'splash', css: { minibar: minibar() }" id="wrapperMainWindow">
+			<div id="wrapperMainWindowContainer">
+				<!-- ko if: pageModel.currentView() != 'loading' -->
+
+				<!-- ko if: pageModel.currentCohortDefinition() || pageModel.currentConceptSet() -->
+				<!-- ko if: pageModel.currentCohortDefinition() != null && pageModel.currentView() !='cohortdefinition' -->
+				<div class="breadcrumb-container">
+					<i class="fa fa-arrow-left"></i>
+					<a data-bind="attr: { href: '#/cohortdefinition/' + pageModel.currentCohortDefinition().id()}, text: pageModel.currentCohortDefinition().name"></a>
+					<!-- ko if: pageModel.currentConceptSet() != null && pageModel.currentConceptSetSource() == 'cohort' -->
+					<i class="fa fa-chevron-right"></i>
+					<a data-bind="attr: { href: '#/cohortdefinition/' + pageModel.currentCohortDefinition().id() + '/conceptset/' + pageModel.currentConceptSet().id + '/details'}, text:pageModel.currentConceptSet().name()"></a>
+					<span class="badge" data-bind="text:pageModel.selectedConcepts().length"></span>
+					<!-- /ko -->
+				</div>
+				<!-- /ko -->
+				<!-- ko if: pageModel.currentConceptSet() && pageModel.currentConceptSetSource() == 'repository' && pageModel.currentView() != 'conceptset' -->
+				<div class="breadcrumb-container">
+					<i class="fa fa-arrow-left"></i>
+					<a data-bind="attr: { href: '#/conceptset/' + pageModel.currentConceptSet().id + '/details'}, text:pageModel.currentConceptSet().name"></a>
+					&nbsp;<span class="badge" data-bind="text:pageModel.selectedConcepts().length"></span>
+				</div>
+				<!-- /ko -->
+				<!-- /ko -->
+
+				<!-- /ko -->
+
+				<div id="wrapperLoading" data-bind="if: currentView() == 'loading'">
+					<div class="wrapperTitle">
+						<i class="fa fa-fw fa-circle-o-notch fa-spin"></i> Loading...
+					</div>
+				</div>
+
+				<div id='current-view'></div>
+
+				<div data-bind="if:pageModel.currentView()=='import'">
+					<importer params="{model: pageModel}"></importer>
+				</div>
+
+				<div data-bind="if:pageModel.currentView()=='home'">
+					<home params="{model: pageModel}"></home>
+				</div>
+
+				<div data-bind="if:pageModel.currentView()=='conceptsets'">
+					<conceptset-browser params="{model: pageModel}"></conceptset-browser>
+				</div>
+
+				<div data-bind="if: pageModel.currentView() == 'conceptset'">
+					<conceptset-manager params="{model: pageModel}"></conceptset-manager>
+				</div>
+
+				<div data-bind="visible: pageModel.currentView() == 'search'">
+					<search id="componentSearch" params="{model: pageModel}"></search>
+				</div>
+
+				<div data-bind="if: pageModel.currentView() == 'concept'">
+					<concept-manager params="{model: pageModel, currentConceptId: pageModel.currentConceptId}"></concept-manager>
+				</div>
+
+				<div data-bind="if:pageModel.currentView()=='jobs'">
+					<job-manager params="{model: pageModel}"></job-manager>
+				</div>
+
+				<div data-bind="if: pageModel.currentView() == 'cohortdefinitions'">
+					<cohort-definitions params="{model: pageModel}"></cohort-definitions>
+				</div>
+
+				<div data-bind="if: pageModel.currentView() == 'datasources'">
+					<data-sources params="{model: pageModel}"></data-sources>
+				</div>
+
+				<div data-bind="if: pageModel.currentView() == 'cohortdefinition'">
+					<cohort-definition-manager params="{model: pageModel}"></cohort-definition-manager>
+				</div>
+
+				<div data-bind="if: pageModel.currentView() == 'reports'">
+					<report-manager params="{model: pageModel}"></report-manager>
+				</div>
+
+				<div data-bind="if:pageModel.currentView() == 'profiles'">
+					<profile-manager params="model: pageModel"></profile-manager>
+				</div>
+
+				<analytics-manager data-bind="if:pageModel.currentView()== 'analytics'" params="{model: pageModel}"></analytics-manager>
+
+				<div data-bind="if:pageModel.currentView() == 'feasibilities'">
+					<feasibility-manager></feasibility-manager>
+				</div>
+
+				<div data-bind="if:pageModel.currentView() == 'feasibility'">
+					<feasibility-analyzer params="services: pageModel.services, feasibilityId: pageModel.feasibilityId"></feasibility-analyzer>
+				</div>
+
+				<div data-bind="if:pageModel.currentView() == 'estimations'">
+					<cohort-comparison-browser></cohort-comparison-browser>
+				</div>
+
+				<div data-bind="if:pageModel.currentView() == 'estimation'">
+					<cohort-comparison-manager params="currentCohortComparisonId:pageModel.currentCohortComparisonId, currentCohortComparison: pageModel.currentCohortComparison, dirtyFlag: pageModel.currentCohortComparisonDirtyFlag"></cohort-comparison-manager>
+				</div>
+
+				<div data-bind="if: currentView() == 'configure'">
+					<div class="wrapperTitle">
+						<i class="fa fa-cogs"></i>Configuration
+					</div>
+
+					<div id="wrapperConfigure">
+						<div data-bind="if:appInitializationFailed">
+							<div class="heading">application initialization failed</div>
+							<div class="error">unable to connect to an instance of the webapi. please contact your administrator to resolve this issue.</div>
+						</div>
+						<div data-bind="if:!appInitializationFailed()">
+							<div class="heading">Configured Services</div>
+							<ohdsi-configuration params="{enableRecordCounts: pageModel.enableRecordCounts, services: pageModel.services}"></ohdsi-configuration>
+							<r-manager></r-manager>				
+						</div>
+					</div>
+				</div>
+
+				<div data-bind="if: currentView() == 'irbrowser'">
+					<ir-browser params="model: pageModel"></ir-browser>
+				</div>
+
+				<div data-bind="if: currentView() == 'iranalysis'">
+					<ir-manager params="model: pageModel"></ir-manager>
+				</div>
+
+				<div data-bind="if: currentView() == 'template'">
+					<div class="wrapperTitle">
+						Template
+					</div>
+				</div>
+
+				<div data-bind="if:pageModel.currentView() == 'sptest'">
+					<sptest></sptest>
+				</div>
+				<div data-bind="if:pageModel.currentView() == 'sptest_smoking'">
+					<sptest_smoking></sptest_smoking>
+				</div>
+
+			</div>
+		</div>
+		<script type="text/javascript" charset="utf-8" src="https://animate.adobe.com/runtime/5.0.1/edge.5.0.1.min.js"></script>
+		<script>
+			AdobeEdge.loadComposition('atlas%20animation', 'EDGE-8182598', {
+				scaleToFit: "none",
+				centerStage: "none",
+				minW: "0",
+				maxW: "undefined",
+				width: "400px",
+				height: "400px"
+			}, {
+				"dom": {}
+			}, {
+				"dom": {}
+			});
+		</script>
+		<!--Adobe Edge Runtime End-->
+	</div>
 </body>
 
 </html>

@@ -53,7 +53,7 @@ export class App {
 		this.knockknock = "who's there?";
 		console.log('appmodel', arguments);
 		let kb = new KnockoutBindable();
-		kb.applyBindableValues({eek:'boundable',foo:'whatever'}, this);
+		//kb.applyBindableValues({eek:'boundable',foo:'whatever'}, this);
 		$.support.cors = true;
 		var self = this;
 		self.pageModel = self; // combining main and app from orig knockout
@@ -130,6 +130,7 @@ export class App {
 					'/': function () {
 						document.location = "#/home";
 					},
+					/*
 					'/?((\w|.)*)': function(plainPath) {
 						let path = self.router.getRoute();
 						let first = path[0];
@@ -151,7 +152,7 @@ export class App {
 							self.isEs6Component = isEs6Component(component);
 						})
 					},
-					/*
+					*/
 					'/concept/:conceptId:': function (conceptId) {
 						require(['concept-manager'], function () {
 							self.currentConceptId(conceptId);
@@ -237,7 +238,7 @@ export class App {
 							self.loadCohortDefinition(cohortDefinitionId, null, 'profiles', 'details');
 						});
 					},
-					* /
+					*/
 					'/conceptset/:conceptSetId/:mode': function (conceptSetId, mode) {
 						require(['conceptset-manager', 'cohort-definition-browser'], function () {
 							self.loadConceptSet(conceptSetId, 'conceptset', 'repository', mode);
@@ -322,7 +323,7 @@ export class App {
 							self.currentView('vocab-experiment');
 						});
 					}
-					*/
+					//*/
 				}
 				self.router = new Router(routes).configure(routerOptions);
 				self.router.init('/');
@@ -1794,7 +1795,6 @@ export class App {
 
 
 		console.log('starting main stuff');
-		$('#splash').fadeIn();
 		// establish base priorities for daimons
 		var evidencePriority = 0;
 		var vocabularyPriority = 0;

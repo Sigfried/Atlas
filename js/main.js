@@ -259,24 +259,21 @@ requirejs.config({
 requirejs(['aurelia-bootstrapper','knockout', 'aurelia-knockout', 'es6!app'], function (aurelia, ko, ak, app) {
 //requirejs(['aurelia-bootstrapper','knockout', 'aurelia-knockout', 'es6!test'], function (aurelia, ko, ak, test) {
 //})
+
+	$('#splash').fadeIn();
+	var pageModel = new app.App();
+	window.pageModel = pageModel;
+	ko.applyBindings(pageModel,document.getElementsByTagName('html')[0]);
+
+	/*
 	aurelia.bootstrap((aur) => {
 		aur.use
 			.standardConfiguration()
 			//.feature('resources')
 			.developmentLogging()
 			.plugin("aurelia-knockout");
-		aur.start().then((a) => a.setRoot('app', document.body));
-	});
-	/*
-	aureliaBootstrap.bootstrap((aurelia) => {
-		//console.log('in bootstrap', app);
-		aurelia.use
-			.standardConfiguration()
-			.developmentLogging()
-			.plugin("aurelia-knockout");
-		//aurelia.start().then((a) => a.setRoot('app', document.body));
-		console.log(ak);
-		//aurelia.start().then((a) => a.setRoot('app', document.body));
+		//aur.start().then((a) => a.setRoot('app', document.body));
+		aur.start().then(() => aur.enhance(document.querySelector('current-view')));
 	});
 	*/
 });
