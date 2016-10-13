@@ -1,6 +1,7 @@
 "use strict";
 define(['knockout', 'text!./vocab-experiment.html', 'supergroup', 'ohdsi.util', 'databindings/domEl','knockout.dataTables.binding', 'components/faceted-datatable-cf'], 
 			 function (ko, view, _, util) {
+console.log('loading vocab');
 	function vocabExperiment(params) {
 		var self = this;
 		if (params.controller) {
@@ -266,6 +267,7 @@ define(['knockout', 'text!./vocab-experiment.html', 'supergroup', 'ohdsi.util', 
 	};
 
 	ko.components.register('vocab-experiment', component);
+	console.log('registered vocab-experiment');
 	return component;
 
 	function chartOptions() {

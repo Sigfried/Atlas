@@ -10,9 +10,40 @@ import 'knockout-persist';
 import 'css!styles/tabs.css';
 import 'css!styles/buttons.css';
 //import * as aurelia from 'aurelia-bootstrapper';
+import {bindable} from 'aurelia-framework';
 
+function route2componentName(route) {
+	let table = {
+								'import': 'importer',
+								'conceptsets': 'conceptset-browser',
+								'conceptset': 'conceptset-manager',
+								'concept': 'conceptset-manager',
+								'jobs': 'job-manager',
+								'cohortdefinitions': 'cohort-definitions',
+								'datasources': 'data-sources',
+								'cohortdefinition': 'cohort-definition-manager',
+								'reports': 'report-manager',
+								'profiles': 'profile-manager',
+								'analytics': 'analytics-manager',
+								'feasibilities': 'feasibility-manager',
+								'estimations': 'cohort-comparison-browser',
+								'estimation': 'cohort-comparison-manager',
+								'configure': 'ohdsi-configuration',
+								'irbrowser': 'ir-browser',
+								'iranalysis': 'ir-manager',
+			};
+	return table[route] || route;
+}
 
+@bindable('component')
+@bindable('currentView')
 export class App {
+	bind(bindingContext, overrideContext) {
+		console.log(arguments);
+	}
+	valueChanged(newValue, oldValue) {
+		console.log(oldValue, newValue);
+	}
 	constructor() {
 		this.firstName = 'John';
 		this.lastName = ko.observable('Doe');
@@ -76,6 +107,18 @@ export class App {
 			
 			return pageTitle;
 		});
+		//self.componentToLoad = ko.observable();
+		self.component = 'test';
+		self.routePath = ko.observable();
+		self.querystring = ko.observable();
+		self.isEs6Component = false;
+		function isEs6Component(name) {
+			let es6components = {
+				'Xvocab-experiment': true,
+				'test': true,
+			};
+			return es6components[name];
+		}
 		self.initComplete = function () {
 			if (!self.appInitializationFailed()) {
 				var routerOptions = {
@@ -87,6 +130,28 @@ export class App {
 					'/': function () {
 						document.location = "#/home";
 					},
+					'/?((\w|.)*)': function(plainPath) {
+						let path = self.router.getRoute();
+						let first = path[0];
+						let component = route2componentName(first);
+						let last = path.pop();
+						if (last.indexOf('?') > -1) {
+							self.querystring(last.slice(last.indexOf('?') + 1));
+							last = last.slice(0, last.indexOf('?'));
+						}
+						path.push(last);
+						let loadstring = (isEs6Component(component) ?
+																'es6!' : '') + component;
+						console.log(path);
+						requirejs([loadstring], function (module) {
+							self.component = component;
+							self.currentView(component);
+							self.routePath(path);
+							console.log('setting isEs6Component', isEs6Component(component));
+							self.isEs6Component = isEs6Component(component);
+						})
+					},
+					/*
 					'/concept/:conceptId:': function (conceptId) {
 						require(['concept-manager'], function () {
 							self.currentConceptId(conceptId);
@@ -172,7 +237,7 @@ export class App {
 							self.loadCohortDefinition(cohortDefinitionId, null, 'profiles', 'details');
 						});
 					},
-					*/
+					* /
 					'/conceptset/:conceptSetId/:mode': function (conceptSetId, mode) {
 						require(['conceptset-manager', 'cohort-definition-browser'], function () {
 							self.loadConceptSet(conceptSetId, 'conceptset', 'repository', mode);
@@ -257,6 +322,7 @@ export class App {
 							self.currentView('vocab-experiment');
 						});
 					}
+					*/
 				}
 				self.router = new Router(routes).configure(routerOptions);
 				self.router.init('/');

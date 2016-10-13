@@ -66,6 +66,35 @@
 					</div>
 				</div>
 
+
+
+				<!-- ko ifnot: isEs6Component -->
+				<div id='current-view' 
+						data-bind="component: {
+													name: component,
+													params: {
+														model: pageModel,
+														path: routePath,
+														querystring: querystring,
+													}
+												}"></div>
+				<!-- /ko -->
+				<!-- ko if: isEs6Component -->
+				<div if.bind="isEs6Component">
+					<compose view-model="${component}" ></compose>
+				</div>
+				<pre id='current-view' >
+					data-bind="text: component": [<span data-bind="text: component"></span>]
+					data-bind="text: currentView": [<span data-bind="text: currentView"></span>]
+					component: [${component}]
+					currentView(): [${currentView()}]
+					textcontent.bind="component": [<input type="text" value.bind="component" change.trigger="valueChanged($event.target)"></input>]
+					textcontent.bind="'Hello' + component": [<span textcontent.bind="'Hello' + component"></span>]
+					textcontent.call="currentView": [<span textcontent.call="currentView"></span>]
+				</pre>
+				<!-- /ko -->
+
+<!-- ko if: false -->
 				<div data-bind="if:pageModel.currentView()=='import'">
 					<importer params="{model: pageModel}"></importer>
 				</div>
@@ -95,14 +124,16 @@
 				</div>
 
 				<div data-bind="if: pageModel.currentView() == 'cohortdefinitions'">
-	<div id='knockouttest'>
-		<h1>HELLO</h1>
-		<input value.bind="firstName">
-		<button click.trigger="sayHello()">Say Hello</button>
-		<input data-bind="value: lastName" />
-		<div data-bind="text: 'data-bound'"></div>
-		<div data-bind="text: `${firstName} ` + lastName()"></div>
-	</div>
+
+									<div id='knockouttest'>
+										<h1>HELLO</h1>
+										<input value.bind="firstName">
+										<button click.trigger="sayHello()">Say Hello</button>
+										<input data-bind="value: lastName" />
+										<div data-bind="text: 'data-bound'"></div>
+										<div data-bind="text: `${firstName} ` + lastName()"></div>
+									</div>
+
 					<cohort-definitions params="{model: pageModel}"></cohort-definitions>
 				</div>
 
@@ -147,8 +178,6 @@
 
 					<div id="wrapperConfigure">
 						<div data-bind="if:appInitializationFailed">
-		<h1 data-bind="text:eek"></h1>
-	<h1>${foo}</h1>
 							<div class="heading">application initialization failed</div>
 							<div class="error">unable to connect to an instance of the webapi. please contact your administrator to resolve this issue.</div>
 						</div>
@@ -180,6 +209,7 @@
 				<div data-bind="if:pageModel.currentView() == 'sptest_smoking'">
 					<sptest_smoking></sptest_smoking>
 				</div>
+<!-- /ko -->
 
 			</div>
 		</div>
