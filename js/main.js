@@ -179,9 +179,16 @@ requirejs.config({
 	deps: ['css!styles/jquery.dataTables.min',
 				 'css!styles/jquery.dataTables.colVis.css'
 	],
+	es6: {
+		fileExtension: '.js' // put in .jsx for JSX transformation
+	},
+	babel: {
+		presets: ['es2016'],
+		plugins: ['transform-es2015-modules-amd',"transform-decorators-legacy"]
+	},
 	paths: {
-		"es6": '../node_modules/requirejs-babel/es6',
-		"babel": '../node_modules/requirejs-babel/babel-5.8.34.min',
+		"es6": '../node_modules/requirejs-babel-plugin/es6',
+		"babel": '../node_modules/babel-standalone/babel.min',
 		"jquery": "https://code.jquery.com/jquery-1.11.2.min",
 		"jquery-ui": "https://code.jquery.com/ui/1.11.4/jquery-ui.min",
 		"bootstrap": "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min",
