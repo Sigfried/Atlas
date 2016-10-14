@@ -256,24 +256,25 @@ requirejs.config({
 });
 
 
-requirejs(['aurelia-bootstrapper','knockout', 'aurelia-knockout', 'es6!app'], function (aurelia, ko, ak, app) {
-//requirejs(['aurelia-bootstrapper','knockout', 'aurelia-knockout', 'es6!test'], function (aurelia, ko, ak, test) {
-//})
+requirejs(['bootstrap'], function () { // bootstrap must come first
+	requirejs(['aurelia-bootstrapper', 'aurelia-knockout', 'knockout', 'es6!app', 'appConfig', 'ohdsi.util', 'director', 'search', 'localStorageExtender', 'jquery.ui.autocomplete.scroll'],
+		function (aurelia, ak, ko, app, config, util) {
+			$('#splash').fadeIn();
+			var pageModel = new app.App();
+			window.pageModel = pageModel;
+			ko.applyBindings(pageModel,document.getElementsByTagName('html')[0]);
 
-	$('#splash').fadeIn();
-	var pageModel = new app.App();
-	window.pageModel = pageModel;
-	ko.applyBindings(pageModel,document.getElementsByTagName('html')[0]);
-
-	/*
-	aurelia.bootstrap((aur) => {
-		aur.use
-			.standardConfiguration()
-			//.feature('resources')
-			.developmentLogging()
-			.plugin("aurelia-knockout");
-		//aur.start().then((a) => a.setRoot('app', document.body));
-		aur.start().then(() => aur.enhance(document.querySelector('current-view')));
-	});
-	*/
+			/*
+			aurelia.bootstrap((aur) => {
+				aur.use
+					.standardConfiguration()
+					//.feature('resources')
+					.developmentLogging()
+					.plugin("aurelia-knockout");
+				//aur.start().then((a) => a.setRoot('app', document.body));
+				aur.start().then(() => aur.enhance(document.querySelector('aurelia-view')));
+			});
+			*/
+		}
+	);
 });

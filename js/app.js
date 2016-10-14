@@ -37,6 +37,7 @@ function route2componentName(route) {
 
 @bindable('component')
 @bindable('currentView')
+@bindable('aureliaView')
 export class App {
 	bind(bindingContext, overrideContext) {
 		console.log(arguments);
@@ -45,6 +46,7 @@ export class App {
 		console.log(oldValue, newValue);
 	}
 	constructor() {
+		this.aureliaView = false;
 		this.firstName = 'John';
 		this.lastName = ko.observable('Doe');
 		this.fromProp = 'FROM PROP';
@@ -322,7 +324,11 @@ export class App {
 							console.log(path, vocab);
 							self.currentView('vocab-experiment');
 						});
-					}
+					},
+					'/?((\w|.)*)': function(plainPath) {
+						console.log('in wildcard route handler', plainPath);
+						self.aureliaView = true;
+					},
 					//*/
 				}
 				self.router = new Router(routes).configure(routerOptions);
@@ -1503,7 +1509,7 @@ export class App {
 				return densityPromise;
 			}
 			var searchResultIdentifiers = [];
-			for (c = 0; c < results.length; c++) {
+			for (var c = 0; c < results.length; c++) {
 				// optimization - only lookup standard concepts as non standard concepts will not have records
 				if (results[c].STANDARD_CONCEPT_CAPTION == 'Standard' || results[c].STANDARD_CONCEPT_CAPTION == 'Classification') {
 					searchResultIdentifiers.push(results[c].CONCEPT_ID);
