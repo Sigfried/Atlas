@@ -103,13 +103,14 @@
 					</div>
 				</div>
 
-				<!-- ko if: aureliaView -->
 				<div id='aurelia-view'>
+					<h1>aurelia div</h1>
+					[${aureliaView}]
 					<div if.bind="aureliaView">
 						<h1>showing aurelia view</h1>
+						<compose view-model="${component}" ></compose>
 					</div>
 				</div>
-				<!-- /ko -->
 
 				<div data-bind="if:pageModel.currentView()=='import'">
 					<importer params="{model: pageModel}"></importer>

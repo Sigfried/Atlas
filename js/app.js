@@ -47,6 +47,7 @@ export class App {
 	}
 	constructor() {
 		this.aureliaView = false;
+		console.log('aureliaView false');
 		this.firstName = 'John';
 		this.lastName = ko.observable('Doe');
 		this.fromProp = 'FROM PROP';
@@ -126,35 +127,17 @@ export class App {
 				var routerOptions = {
 					notfound: function () {
 						self.currentView('search');
-					}
+					},
+					before: function() {
+						console.log('navigating somewhere ', arguments);
+						self.aureliaView = false;
+						console.log('aureliaView false');
+					},
 				};
 				var routes = {
 					'/': function () {
 						document.location = "#/home";
 					},
-					/*
-					'/?((\w|.)*)': function(plainPath) {
-						let path = self.router.getRoute();
-						let first = path[0];
-						let component = route2componentName(first);
-						let last = path.pop();
-						if (last.indexOf('?') > -1) {
-							self.querystring(last.slice(last.indexOf('?') + 1));
-							last = last.slice(0, last.indexOf('?'));
-						}
-						path.push(last);
-						let loadstring = (isEs6Component(component) ?
-																'es6!' : '') + component;
-						console.log(path);
-						requirejs([loadstring], function (module) {
-							self.component = component;
-							self.currentView(component);
-							self.routePath(path);
-							console.log('setting isEs6Component', isEs6Component(component));
-							self.isEs6Component = isEs6Component(component);
-						})
-					},
-					*/
 					'/concept/:conceptId:': function (conceptId) {
 						require(['concept-manager'], function () {
 							self.currentConceptId(conceptId);
@@ -328,6 +311,9 @@ export class App {
 					'/?((\w|.)*)': function(plainPath) {
 						console.log('in wildcard route handler', plainPath);
 						self.aureliaView = true;
+						console.log('aureliaView true');
+						self.currentView('aurelia-component');
+						self.loadComponent();
 					},
 					//*/
 				}
@@ -345,6 +331,27 @@ export class App {
 				$('#wrapperLeftMenu').fadeIn();
 				$('#wrapperMainWindow').fadeIn();
 			}, 10);
+		}
+		self.loadComponent = function() {
+			let path = self.router.getRoute();
+			let first = path[0];
+			let component = route2componentName(first);
+			let last = path.pop();
+			if (last.indexOf('?') > -1) {
+				self.querystring(last.slice(last.indexOf('?') + 1));
+				last = last.slice(0, last.indexOf('?'));
+			}
+			path.push(last);
+			let loadstring = (isEs6Component(component) ?
+													'es6!' : '') + component;
+			console.log(path);
+			requirejs([loadstring], function (module) {
+				self.component = component;
+				self.currentView(component);
+				self.routePath(path);
+				console.log('setting isEs6Component', isEs6Component(component));
+				self.isEs6Component = isEs6Component(component);
+			})
 		}
 		self.loadConcept = function (conceptId) {
 			self.currentView('loading');

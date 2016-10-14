@@ -264,7 +264,6 @@ requirejs(['bootstrap'], function () { // bootstrap must come first
 			window.pageModel = pageModel;
 			ko.applyBindings(pageModel,document.getElementsByTagName('html')[0]);
 
-			/*
 			aurelia.bootstrap((aur) => {
 				aur.use
 					.standardConfiguration()
@@ -272,9 +271,8 @@ requirejs(['bootstrap'], function () { // bootstrap must come first
 					.developmentLogging()
 					.plugin("aurelia-knockout");
 				//aur.start().then((a) => a.setRoot('app', document.body));
-				aur.start().then(() => aur.enhance(document.querySelector('aurelia-view')));
+				aur.start().then(() => aur.enhance(pageModel, document.querySelector('aurelia-view')));
 			});
-			*/
 		}
 	);
 });
