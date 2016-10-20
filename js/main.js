@@ -1,4 +1,7 @@
-
+//import app from 'js/app';
+console.log('in main');
+//import $ from 'jquery';
+//import aurelia from 'aurelia-bootstrapper';
 requirejs.config({
 	waitSeconds: 60, // FOR DEVELOPMENT, REMOVE WHEN NOT NEEDED? default is 7
 	//urlArgs: "bust=" + (new Date()).getTime(),
@@ -31,6 +34,7 @@ requirejs.config({
 		  name: "extenders",
 		  location: "extenders"
     },
+    /*
 		{
 			name: 'aurelia-templating-resources',
 			location: '../node_modules/aurelia-templating-resources/dist/amd',
@@ -151,6 +155,7 @@ requirejs.config({
 			location: '../node_modules/aurelia-knockout/dist/amd',
 			main : 'aurelia-knockout'
 		},
+    */
 	],
 	shim: {
 		"colorbrewer": {
@@ -187,10 +192,18 @@ requirejs.config({
 		plugins: ['transform-es2015-modules-amd',"transform-decorators-legacy"]
 	},
 	paths: {
+    "aurelia-framework": "../jspm_packages/npm/aurelia-framework@1.0.7/aurelia-framework",
+    "aurelia-pal-browser": "../jspm_packages/npm/aurelia-pal-browser@1.0.0/aurelia-pal-browser",
+    "aurelia-pal": "../jspm_packages/npm/aurelia-pal@1.0.0/aurelia-pal",
+    "aurelia-polyfills": "../jspm_packages/npm/aurelia-polyfills@1.1.1/aurelia-polyfills",
+    "aurelia-bootstrapper": "../jspm_packages/npm/aurelia-bootstrapper@1.0.1/aurelia-bootstrapper",
+		//"es6": "../jspm_packages/npm/requirejs-babel-plugin@0.4.0/es6",
 		"es6": '../node_modules/requirejs-babel-plugin/es6',
 		"babel": '../node_modules/babel-standalone/babel.min',
-		"jquery": "https://code.jquery.com/jquery-1.11.2.min",
-		"jquery-ui": "https://code.jquery.com/ui/1.11.4/jquery-ui.min",
+    "jquery": "../jspm_packages/npm/jquery@3.1.1/dist/jquery",
+    "jquery-ui": "../jspm_packages/github/components/jqueryui@1.12.1/jquery-ui",
+		//"jquery": "https://code.jquery.com/jquery-1.11.2.min",
+		//"jquery-ui": "https://code.jquery.com/ui/1.11.4/jquery-ui.min",
 		"bootstrap": "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min",
 		"text": "plugins/text",
 		"css": "plugins/css.min",
@@ -231,7 +244,7 @@ requirejs.config({
 		"explore-cohort": "components/explore-cohort",
 		"cohortcomparison": "modules/cohortcomparison",
 		"r-manager": "components/r-manager",
-        "negative-controls": "components/negative-controls",
+    "negative-controls": "components/negative-controls",
 		"d3": "d3.min",
 		"d3_tip": "d3.tip",
 		"nvd3":"nv.d3",
@@ -256,23 +269,23 @@ requirejs.config({
 });
 
 
-requirejs(['bootstrap'], function () { // bootstrap must come first
-	requirejs(['aurelia-bootstrapper', 'aurelia-knockout', 'knockout', 'es6!app', 'appConfig', 'ohdsi.util', 'director', 'search', 'localStorageExtender', 'jquery.ui.autocomplete.scroll'],
-		function (aurelia, ak, ko, app, config, util) {
+require(['bootstrap'], function () { // bootstrap must come first
+	requirejs(['aurelia-bootstrapper', 'knockout', 'es6!app', 'appConfig', 'ohdsi.util', 'director', 'search', 'localStorageExtender', 'jquery.ui.autocomplete.scroll'],
+		function (aurelia, ko, app, config, util) {
 			$('#splash').fadeIn();
-			var pageModel = new app.App();
-			window.pageModel = pageModel;
-			ko.applyBindings(pageModel,document.getElementsByTagName('html')[0]);
+      var pageModel = new app.default();
+      window.pageModel = pageModel;
+      ko.applyBindings(pageModel,document.getElementsByTagName('html')[0]);
 
-			aurelia.bootstrap((aur) => {
-				aur.use
-					.standardConfiguration()
-					//.feature('resources')
-					.developmentLogging()
-					.plugin("aurelia-knockout");
-				//aur.start().then((a) => a.setRoot('app', document.body));
-				aur.start().then(() => aur.enhance(pageModel, document.querySelector('aurelia-view')));
-			});
+      aurelia.bootstrap((aur) => {
+        aur.use
+          .standardConfiguration()
+          //.feature('resources')
+          .developmentLogging()
+          //.plugin("aurelia-knockout");
+        //aur.start().then((a) => a.setRoot('app', document.body));
+        aur.start().then(() => aur.enhance(pageModel, document.querySelector('aurelia-view')));
+      });
 		}
 	);
 });

@@ -5,12 +5,16 @@ import d3 from 'd3';
 import ohdsiUtil from 'ohdsi.util';
 import appConfig from 'appConfig';
 import 'director';
-import {KnockoutBindable} from 'aurelia-knockout';
-import 'knockout-persist';
+//import {KnockoutBindable} from 'aurelia-knockout';
+//import 'knockout-persist';
 import 'css!styles/tabs.css';
 import 'css!styles/buttons.css';
+// systemjs way with css loader:
+//import 'js/styles/tabs.css!';
+//import 'js/styles/buttons.css!';
+
 //import * as aurelia from 'aurelia-bootstrapper';
-import {bindable} from 'aurelia-framework';
+//import {bindable} from 'aurelia-framework';
 
 function route2componentName(route) {
 	let table = {
@@ -35,10 +39,10 @@ function route2componentName(route) {
 	return table[route] || route;
 }
 
-@bindable('component')
-@bindable('currentView')
-@bindable('aureliaView')
-export class App {
+//@bindable('component')
+//@bindable('currentView')
+//@bindable('aureliaView')
+export default class App {
 	bind(bindingContext, overrideContext) {
 		console.log(arguments);
 	}
@@ -55,7 +59,7 @@ export class App {
 		this.eek = 'urk';
 		this.knockknock = "who's there?";
 		console.log('appmodel', arguments);
-		let kb = new KnockoutBindable();
+		//let kb = new KnockoutBindable();
 		//kb.applyBindableValues({eek:'boundable',foo:'whatever'}, this);
 		$.support.cors = true;
 		var self = this;
@@ -303,7 +307,7 @@ export class App {
 						});
 					},
 					'/vocab-experiment/?(.*)': function (path) {
-						require(['es6!vocab-experiment'], function (vocab) {
+						require([/*'es6!'*/ 'vocab-experiment'], function (vocab) {
 							console.log(path, vocab);
 							self.currentView('vocab-experiment');
 						});
@@ -342,16 +346,18 @@ export class App {
 				last = last.slice(0, last.indexOf('?'));
 			}
 			path.push(last);
-			let loadstring = (isEs6Component(component) ?
-													'es6!' : '') + component;
+			//let loadstring = (isEs6Component(component) ?  'es6!' : '') + component;
+      let loadstring = `js/${component}`;
+      System.import(loadstring).then(function() {
 			console.log(path);
-			requirejs([loadstring], function (module) {
+			//requirejs([loadstring], function (module) {
 				self.component = component;
 				self.currentView(component);
 				self.routePath(path);
 				console.log('setting isEs6Component', isEs6Component(component));
 				self.isEs6Component = isEs6Component(component);
-			})
+      });
+			//})
 		}
 		self.loadConcept = function (conceptId) {
 			self.currentView('loading');
