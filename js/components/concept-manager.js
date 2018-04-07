@@ -1,4 +1,4 @@
-define(['knockout', 'text!./concept-manager.html', 'appConfig', 'vocabularyprovider', 'atlas-state', 'vocab', 'faceted-datatable'], function (ko, view, config, vocabAPI, sharedState, vocab) {
+define(['knockout', 'text!./concept-manager.html', 'appConfig', 'vocabularyprovider', 'atlas-state', 'faceted-datatable'], function (ko, view, config, vocabAPI, sharedState) {
 	function conceptManager(params) {
 		var self = this;
 		self.model = params.model;
