@@ -177,6 +177,11 @@ requirejs.config({
 
 		"moment": "https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.2/moment.min",
 		"querystring": "https://cdnjs.cloudflare.com/ajax/libs/qs/6.5.1/qs.min",
+
+		"react": "reactFiles/lib/react-with-addons",
+		"react-dom": "reactFiles/lib/react-dom",
+		"JSXTransformer": "reactFiles/lib/JSXTransformer",
+		"jsx": "reactFiles/lib/jsx",
 	}
 });
 
