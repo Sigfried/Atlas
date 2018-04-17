@@ -133,6 +133,11 @@
 			<!-- /ko -->
 			<!-- /ko -->
 
+        <h3>vocab-experiment</h3>
+        <vocab-experiment id="componentVocabExperiment" params="{model: pageModel}"></vocab-experiment>
+        <h3>vocab-experiment end</h3>
+      <div data-bind="visible: pageModel.currentView() == 'vocab-experiment'">
+      </div>
 			<!-- ko if: pageModel.currentView && (sharedState.appInitializationStatus() != 'failed' && sharedState.appInitializationStatus() != 'no-sources-available') -->
 			<div id="currentComponent" data-bind='component: {name: pageModel.currentView,params: pageModel.componentParams}'></div>
 			<!-- /ko -->

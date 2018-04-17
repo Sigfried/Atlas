@@ -182,11 +182,19 @@ requirejs.config({
 		"react-dom": "reactFiles/lib/react-dom",
 		"JSXTransformer": "reactFiles/lib/JSXTransformer",
 		"jsx": "reactFiles/lib/jsx",
+		"vocab-experiment": "components/vocab-experiment",
+	},
+	jsx: {
+		fileExtension: '.jsx',
+		harmony: true,
 	}
 });
 
 requirejs(['bootstrap'], function () { // bootstrap must come first
-	requirejs(['knockout', 'app', 'appConfig', 'webapi/AuthAPI', 'webapi/SourceAPI', 'ohdsi.util', 'lscache', 'atlas-state', 'vocabularyprovider', 'director', 'search', 'localStorageExtender', 'jquery.ui.autocomplete.scroll', 'loading', 'user-bar', 'welcome'], function (ko, app, config, authApi, sourceApi, util, lscache, sharedState, vocabAPI) {
+	requirejs(['knockout', 'app', 'appConfig', 'webapi/AuthAPI', 'webapi/SourceAPI', 'ohdsi.util', 'lscache', 'atlas-state', 'vocabularyprovider', 'director', 
+							'search', 
+							'vocab-experiment', 
+							'localStorageExtender', 'jquery.ui.autocomplete.scroll', 'loading', 'user-bar', 'welcome'], function (ko, app, config, authApi, sourceApi, util, lscache, sharedState, vocabAPI) {
 		var pageModel = new app();
 		window.pageModel = pageModel;
 

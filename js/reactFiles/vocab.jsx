@@ -1,5 +1,5 @@
 "use strict";
-define(['react', 'supergroup', 'ohdsi.util'], function (React, _, util) {
+define(['react', 'ohdsi.util'], function (React, util) {
 	class Test extends React.Component {
 		constructor(props) {
 			super(props);
