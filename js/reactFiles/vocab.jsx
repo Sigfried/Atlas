@@ -3,6 +3,7 @@ define(['react', 'ohdsi.util'], function (React, util) {
 	class Test extends React.Component {
 		constructor(props) {
 			super(props);
+			console.log('in Test w/ props:', props)
 			this.state = {
 				statuses: this.props.status 
 					? [this.props.status] : []
@@ -18,6 +19,7 @@ define(['react', 'ohdsi.util'], function (React, util) {
 
 		render() {
 			let { status, concepts, query } = this.props;
+			console.log('in Test render w/ props:', this.props)
 			return (
 				<div>
 					<div className="heading">{query}</div>

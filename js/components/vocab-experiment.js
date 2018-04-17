@@ -44,8 +44,8 @@ define(['knockout', 'text!./vocab-experiment.html', 'ohdsi.util',
 			var comp = ReactDom.render(
 									React.createElement(Test, props),
 									self.domEl(),
-									function() {
-										console.log('reactCB', arguments);
+									function(a,b,c) {
+										console.log('reactCB', {a,b,c});
 									});
 		}
 		self.ready = ko.computed(function() {
