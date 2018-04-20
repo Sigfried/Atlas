@@ -1,4 +1,14 @@
-define(['knockout', 'text!./concept-manager.html', 'appConfig', 'vocabularyprovider', 'atlas-state', 'faceted-datatable'], function (ko, view, config, vocabAPI, sharedState) {
+define(['knockout', 'text!./concept-manager.html', 'appConfig', 'vocabularyprovider', 'atlas-state', 
+				'supergroup',
+				'es6!reactFiles/Vocab', 
+	      //'es6!react', 'es6!react-dom', 
+				'databindings/domEl',
+				'faceted-datatable',
+		], function (ko, view, config, vocabAPI, sharedState,
+									_,
+									//React, ReactDom, 
+									Vocab
+) {
 	function conceptManager(params) {
 		var self = this;
 		self.model = params.model;
@@ -9,6 +19,45 @@ define(['knockout', 'text!./concept-manager.html', 'appConfig', 'vocabularyprovi
 		self.loadingRelated = ko.observable(false);
 
 		self.currentConceptId = params.model.currentConceptId;
+		self.domElReady = ko.observable(false)
+
+
+
+
+		self.domEl = ko.observable();
+		/*
+		if (self.domEl()) {
+			let props = {a:'hi', b: 'bye'}
+			Vocab.renderStuff(props);
+		}
+		*/
+		self.domEl.subscribe(function() {
+			let props = {self, a:'hi hi', b: 'bye bye'}
+			self.domElReady(true)
+			Vocab.renderStuff(self, props);
+		});
+		let selfKeysMightCareAbout = [
+			"loadingSourceCounts",
+			"loadingRelated",
+			"currentConceptArray",
+			"currentConceptId",
+			"hasRelationship",
+			"loadConcept",
+			"meetsRequirements",
+			"metatrix",
+			"sourceCounts",
+		]
+		ko.computed(function() {
+			return ko.toJSON( _.pick(self, selfKeysMightCareAbout))
+		}).subscribe(function(_self) {
+			if (self.domElReady()) {
+				Vocab.renderStuff(self, {self})
+			}
+		});
+				
+
+
+
 
 		self.subscriptions.push(
 			self.currentConceptId.subscribe(function (value) {
@@ -464,8 +513,11 @@ define(['knockout', 'text!./concept-manager.html', 'appConfig', 'vocabularyprovi
 						var densityPromise = vocabAPI.loadDensity(related);
 						$.when(densityPromise).done(function () {
 							var currentConceptObject = _.find(related, c => c.CONCEPT_ID == self.currentConceptId());
-							self.currentConceptArray.push(currentConceptObject);
+							if (currentConceptObject) {
+								self.currentConceptArray.push(currentConceptObject);
+							}
 							self.model.relatedConcepts(related);
+							console.log('getting concepts', currentConceptObject, related)
 							relatedPromise.resolve();
 						});
 					}
@@ -477,6 +529,17 @@ define(['knockout', 'text!./concept-manager.html', 'appConfig', 'vocabularyprovi
 		};
 
 		self.loadConcept(self.model.currentConceptId());
+
+		self.subscriptions.push(
+			self.currentConceptArray.subscribe(function (array) {
+				console.log('currentConcept stuff', 
+											self.model.currentConceptId(), self.model.currentConcept(),
+											self.currentConceptArray(),
+											self.model.relatedConcepts()
+						)
+			})
+		);
+
 
 		self.dispose = function () {
 			self.subscriptions.forEach(function (subscription) {

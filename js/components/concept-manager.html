@@ -8,6 +8,19 @@
 		<span data-bind="css: {classification: STANDARD_CONCEPT=='C', invalid: STANDARD_CONCEPT=='N'}, text:CONCEPT_NAME"></span>
 	</div>
 
+
+
+
+	<div data-bind="domEl: {	domEl:domEl, }"></div>
+	<!--div role="presentation" 
+				data-bind="visible: !loadingRelated()">
+		metarchy children
+				<span data-bind="html: typeof(metarchy) === 'undefined' ? 'n/a' : metarchy.children().length "></span>
+				<pre data-bind="html: JSON.stringify(model.relatedConcepts().map(c=>c.CONCEPT_NAME),null,2)"></pre>
+	</div-->
+
+
+
 	<ul class="nav nav-tabs">
 		<li role="presentation" data-bind="click: function() {model.currentConceptMode('details');}, attr: {class: model.currentConceptMode() == 'details' ? 'active' : ''}"><a>Details</a>
 		</li>

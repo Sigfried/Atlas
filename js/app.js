@@ -263,14 +263,6 @@ define(['jquery', 'knockout', 'ohdsi.util', 'appConfig', 'webapi/AuthAPI', 'weba
 							self.currentView('search');
 						});
 					},
-          /*
-          '/vocab-experiment/?((\w|.)*)': function (path) {
-              console.log(this.getRoute());
-              require(['vocab-experiment'], function () {
-                self.currentView('vocab-experiment');
-            });
-          },
-          */
 					'/estimation': function () {
 						require(['cohort-comparison-browser'], function () {
 							self.componentParams = {

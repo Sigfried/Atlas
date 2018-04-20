@@ -6,12 +6,38 @@ const bustCache = (() => {
 
 requirejs.config({
 	baseUrl: 'js',
+	babel: {
+		presets: ['es2015'],
+		plugins: [
+			'transform-es2015-modules-amd',
+		],
+	},
+	/*
+	babel: {
+      blacklist: [],
+      nonStandard: true,
+      modules: 'amd'
+	},
+	*/
 	config: {
 		text: {
 			useXhr: function (url, protocol, hostname, port) {
 				return true;
 			}
 		},
+		/*
+		es6: {
+			//fileExtension: '.js', // put in .jsx for JSX transformation
+			resolveModuleSource: function(source) {
+				console.log(`looking for [${source}]`)
+				let whitelist = ['./', '../', 'lib/']
+				let whitelisted = s => whitelist.some(f => s.startsWith(f))
+				let hasPrefix = source.startsWith('es6!')
+				let prefix = whitelisted(source) && !hasPrefix ? 'es6!' : ''
+				return 'es6!'+source;
+			}
+		},
+		*/
 	},
 	urlArgs: bustCache,
 	packages: [{
@@ -178,22 +204,26 @@ requirejs.config({
 		"moment": "https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.2/moment.min",
 		"querystring": "https://cdnjs.cloudflare.com/ajax/libs/qs/6.5.1/qs.min",
 
-		"react": "reactFiles/lib/react-with-addons",
-		"react-dom": "reactFiles/lib/react-dom",
-		"JSXTransformer": "reactFiles/lib/JSXTransformer",
-		"jsx": "reactFiles/lib/jsx",
-		"vocab-experiment": "components/vocab-experiment",
+		//'es6': "node_modules/requirejs-babel/es6",
+		//'babel': "node_modules/requirejs-babel/babel-5.8.34.min",
+		'es6': "bower_components/requirejs-babel/es6",
+		'babel': "bower_components/requirejs-babel/babel-5.8.34.min",
+		'react': 'https://unpkg.com/react@15.3.2/dist/react',
+		'react-dom': 'https://unpkg.com/react-dom@15.3.2/dist/react-dom',
+		//'test': "test"
+		
+
+		//"react": "reactFiles/lib/react-with-addons",
+		//"react-dom": "reactFiles/lib/react-dom",
+		//"JSXTransformer": "reactFiles/lib/JSXTransformer",
+		//"jsx": "reactFiles/lib/jsx",
 	},
-	jsx: {
-		fileExtension: '.jsx',
-		harmony: true,
-	}
+	//jsx: { fileExtension: '.jsx', harmony: true, }
 });
 
 requirejs(['bootstrap'], function () { // bootstrap must come first
 	requirejs(['knockout', 'app', 'appConfig', 'webapi/AuthAPI', 'webapi/SourceAPI', 'ohdsi.util', 'lscache', 'atlas-state', 'vocabularyprovider', 'director', 
 							'search', 
-							'vocab-experiment', 
 							'localStorageExtender', 'jquery.ui.autocomplete.scroll', 'loading', 'user-bar', 'welcome'], function (ko, app, config, authApi, sourceApi, util, lscache, sharedState, vocabAPI) {
 		var pageModel = new app();
 		window.pageModel = pageModel;
