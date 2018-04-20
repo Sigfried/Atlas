@@ -6,6 +6,7 @@ define(['knockout', 'text!./vocab-experiment.html', 'ohdsi.util',
 	      ], 
 			 function (ko, view, util, React, ReactDom, Test) {
 	function vocabExperiment(params) {
+		throw new Error("not using this, right?")
 		var self = this;
 		if (params.controller) {
 			params.controller(this);
@@ -35,18 +36,19 @@ define(['knockout', 'text!./vocab-experiment.html', 'ohdsi.util',
 		self.search = { status: 'init', };
 		self.domEl = ko.observable();
 		if (self.domEl()) {
-			renderStuff(self.search);
+			let props = {a:'hi', b: 'bye'}
+			renderStuff(props);
 		}
 		self.domEl.subscribe(function() {
-			renderStuff(self.search);
+			let props = {a:'hi hi', b: 'bye bye'}
+			renderStuff(props);
 		});
 		function renderStuff(props) {
 			var comp = ReactDom.render(
 									React.createElement(Test, props),
 									self.domEl(),
-									function(a,b,c) {
-										console.log('reactCB', {a,b,c});
-									});
+									//function(a,b,c) { console.log('reactCB', {a,b,c}); }
+			)
 		}
 		self.ready = ko.computed(function() {
 			return  (
