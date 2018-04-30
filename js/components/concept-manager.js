@@ -1,14 +1,16 @@
 define(['knockout', 'text!./concept-manager.html', 'appConfig', 'vocabularyprovider', 'atlas-state', 
 				'supergroup',
-				'es6!reactFiles/Vocab', 
+				'rolluphook',
+	//'es6!reactFiles/Vocab', 
 	      //'es6!react', 'es6!react-dom', 
 				'databindings/domEl',
 				'faceted-datatable',
 		], function (ko, view, config, vocabAPI, sharedState,
-									_,
+									_, rolluphook,
 									//React, ReactDom, 
-									Vocab
+									//Vocab
 ) {
+
 	function conceptManager(params) {
 		var self = this;
 		self.model = params.model;
@@ -28,13 +30,14 @@ define(['knockout', 'text!./concept-manager.html', 'appConfig', 'vocabularyprovi
 		/*
 		if (self.domEl()) {
 			let props = {a:'hi', b: 'bye'}
-			Vocab.renderStuff(props);
+			Vocabprops);
 		}
 		*/
 		self.domEl.subscribe(function() {
 			let props = {self, a:'hi hi', b: 'bye bye'}
 			self.domElReady(true)
-			Vocab.renderStuff(self, props);
+			//Vocab(self, props);
+
 		});
 		let selfKeysMightCareAbout = [
 			"loadingSourceCounts",
@@ -51,7 +54,9 @@ define(['knockout', 'text!./concept-manager.html', 'appConfig', 'vocabularyprovi
 			return ko.toJSON( _.pick(self, selfKeysMightCareAbout))
 		}).subscribe(function(_self) {
 			if (self.domElReady()) {
-				Vocab.renderStuff(self, {self})
+				rolluphook(self.domEl(), {self})
+				//Vocab(self, {self})
+				console.error("nothing here at the moment")
 			}
 		});
 				

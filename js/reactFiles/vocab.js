@@ -1,7 +1,9 @@
 import React from 'react'
-//import React from 'bower_components/react'
 import ReactDom from 'react-dom'
-import MermGraph from 'es6!./MermGraph'
+//import React from '/node_modules/react/index.js'
+//import React from 'bower_components/react'
+//import ReactDom from '/node_modules/react-dom'
+//import MermGraph from 'es6!./MermGraph'
 
 class Vocab extends React.Component {
 	constructor(props) {

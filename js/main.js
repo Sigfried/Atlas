@@ -6,34 +6,70 @@ const bustCache = (() => {
 
 requirejs.config({
 	baseUrl: 'js',
-	babel: {
-		presets: ['es2015'],
-		plugins: [
-			'transform-es2015-modules-amd',
-		],
-	},
 	/*
 	babel: {
+			config: {
+				blacklist: [],
+				nonStandard: true,
+				modules: 'amd',
+				presets: ['es2015'],
+			},
       blacklist: [],
       nonStandard: true,
-      modules: 'amd'
+      modules: 'amd',
+			presets: ['es2015'],
+			plugins: [
+				["module-resolver", {
+					"extensions": [".js", ".jsx", ".es", ".es6", ".mjs"],
+					resolvePath(sourcePath, currentFile, opts) {
+						console.error(sourcePath, currentFile, opts)
+						throw new Error("hmm")
+						debugger
+					/**
+						* The `opts` argument is the options object that is passed through the Babel config.
+						* opts = {
+						*   extensions: [".js"],
+						*   resolvePath: ...,
+						* }
+						* /
+					return "resolvedPath";
+				}
+					/*
+					"root": ["./js"],
+					"alias": {
+						"test": "./test",
+						//"underscore": "lodash"
+					}
+					* /
+				}],
+				'transform-es2015-modules-amd',
+			],
 	},
 	*/
 	config: {
 		text: {
 			useXhr: function (url, protocol, hostname, port) {
 				return true;
-			}
+			},
+			/*
+			babel: {
+				blacklist: [],
+				nonStandard: true,
+				modules: 'amd',
+				presets: ['es2015'],
+			},
+			*/
 		},
 		/*
 		es6: {
 			//fileExtension: '.js', // put in .jsx for JSX transformation
 			resolveModuleSource: function(source) {
 				console.log(`looking for [${source}]`)
-				let whitelist = ['./', '../', 'lib/']
-				let whitelisted = s => whitelist.some(f => s.startsWith(f))
-				let hasPrefix = source.startsWith('es6!')
-				let prefix = whitelisted(source) && !hasPrefix ? 'es6!' : ''
+				return source
+				//let whitelist = ['./', '../', 'lib/']
+				//let whitelisted = s => whitelist.some(f => s.startsWith(f))
+				//let hasPrefix = source.startsWith('es6!')
+				//let prefix = whitelisted(source) && !hasPrefix ? 'es6!' : ''
 				return 'es6!'+source;
 			}
 		},
@@ -204,13 +240,31 @@ requirejs.config({
 		"moment": "https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.2/moment.min",
 		"querystring": "https://cdnjs.cloudflare.com/ajax/libs/qs/6.5.1/qs.min",
 
-		//'es6': "node_modules/requirejs-babel/es6",
-		//'babel': "node_modules/requirejs-babel/babel-5.8.34.min",
-		'es6': "bower_components/requirejs-babel/es6",
-		'babel': "bower_components/requirejs-babel/babel-5.8.34.min",
-		'react': 'https://unpkg.com/react@15.3.2/dist/react',
-		'react-dom': 'https://unpkg.com/react-dom@15.3.2/dist/react-dom',
+		"rolluphook": "rollup/build/main",
+		//"rollupthing": "rollup-starter-lib/dist/how-long-till-lunch.umd",
+		//"rolluphook": "babel-react-rollup-starter/build/component",
+		//'es6': "/node_modules/requirejs-babel/es6",
+		//'babel': "/node_modules/requirejs-babel/babel-5.8.34.min",
+		//'react': "/node_modules/react/umd/react.development",
+		//'react-dom': "/node_modules/react-dom/umd/react-dom.development",
+		//'mermaid': "https://cdn.rawgit.com/knsv/mermaid/bc5f73daa2769b666ccf442fa4f6d7fd4995feb0/dist/mermaid.full",
+		//'mermaid': "https://unpkg.com/mermaid@8.0.0-rc.8/dist/mermaid",
+		//'logger': "./junk-logger",
+		//'he': "/node_modules/he/he",
+		//'scope-css': "/node_modules/scope-css/index",
+		//'mermaidAPI': "/node_modules/mermaid/src/mermaidAPI",
+		//'utils': "/node_modules/mermaid/src/utils",
+		//'diagrams': "/node_modules/mermaid/src/diagrams",
+		//'diagrams/flowchart/parser/flow': "/node_modules/mermaid/src/diagrams/flowchart/parser/flow",
+		//'diagrams/flowchart/flowDb': "/node_modules/mermaid/src/diagrams/flowchart/flowDb",
+		//'mermaid': "/node_modules/mermaid/dist/mermaid",
+		//'es6': "bower_components/requirejs-babel/es6",
+		//'babel': "bower_components/requirejs-babel/babel-5.8.34.min",
+		//'react': 'https://unpkg.com/react@15.3.2/dist/react',
+		//'react-dom': 'https://unpkg.com/react-dom@15.3.2/dist/react-dom',
+		//'mermaid': 'https://cdnjs.cloudflare.com/ajax/libs/mermaid/7.1.2/mermaid.min',
 		//'test': "test"
+		//'mermaidjs': 'https://unpkg.com/mermaid@8.0.0-rc.8/dist/mermaid.min',
 		
 
 		//"react": "reactFiles/lib/react-with-addons",
@@ -221,7 +275,8 @@ requirejs.config({
 	//jsx: { fileExtension: '.jsx', harmony: true, }
 });
 
-requirejs(['bootstrap'], function () { // bootstrap must come first
+requirejs(['lodash', 'bootstrap'], function (lodash) { // bootstrap must come first
+	window._ = lodash			// because of mermaid...don't ask
 	requirejs(['knockout', 'app', 'appConfig', 'webapi/AuthAPI', 'webapi/SourceAPI', 'ohdsi.util', 'lscache', 'atlas-state', 'vocabularyprovider', 'director', 
 							'search', 
 							'localStorageExtender', 'jquery.ui.autocomplete.scroll', 'loading', 'user-bar', 'welcome'], function (ko, app, config, authApi, sourceApi, util, lscache, sharedState, vocabAPI) {
