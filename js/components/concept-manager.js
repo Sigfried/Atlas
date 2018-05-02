@@ -5,6 +5,7 @@ define(['knockout', 'text!./concept-manager.html', 'appConfig', 'vocabularyprovi
 	      //'es6!react', 'es6!react-dom', 
 				'databindings/domEl',
 				'faceted-datatable',
+	'jquery-ui/ui/widgets/draggable'
 		], function (ko, view, config, vocabAPI, sharedState,
 									_, rolluphook,
 									//React, ReactDom, 
@@ -22,6 +23,7 @@ define(['knockout', 'text!./concept-manager.html', 'appConfig', 'vocabularyprovi
 
 		self.currentConceptId = params.model.currentConceptId;
 		self.domElReady = ko.observable(false)
+		self.showSemGraph = ko.observable(false)
 
 
 
@@ -54,7 +56,7 @@ define(['knockout', 'text!./concept-manager.html', 'appConfig', 'vocabularyprovi
 			return ko.toJSON( _.pick(self, selfKeysMightCareAbout))
 		}).subscribe(function(_self) {
 			if (self.domElReady()) {
-				rolluphook(self.domEl(), {self})
+				rolluphook('Vocab', self.domEl(), {self})
 				//Vocab(self, {self})
 				console.error("nothing here at the moment")
 			}
@@ -496,6 +498,29 @@ define(['knockout', 'text!./concept-manager.html', 'appConfig', 'vocabularyprovi
 						self.model.recentConcept.pop();
 					}
 					self.model.currentConcept(c);
+				}
+			});
+			var conceptInfoPromise = $.ajax({
+				//url: sharedState.vocabularyUrl() + 'concept/' + conceptId,
+				url: `http://127.0.0.1:3031/api/chcos/conceptInfo?cdmSchema=cdm_v501&concept_ids=%5B${conceptId}%5D&resultsSchema=results`,
+				method: 'GET',
+				contentType: 'application/json',
+				success: function (c, status, xhr) {
+					console.log('got conceptInfo', c, status, xhr)
+						/*
+					var exists = false;
+					for (var i = 0; i < self.model.recentConcept().length; i++) {
+						if (self.model.recentConcept()[i].CONCEPT_ID == c.CONCEPT_ID)
+							exists = true;
+					}
+					if (!exists) {
+						self.model.recentConcept.unshift(c);
+					}
+					if (self.model.recentConcept().length > 7) {
+						self.model.recentConcept.pop();
+					}
+					self.model.currentConcept(c);
+						*/
 				}
 			});
 			// load related concepts once the concept is loaded

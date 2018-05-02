@@ -17650,6 +17650,22 @@ var reactDom = createCommonjsModule(function (module) {
 }
 });
 
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
+  return typeof obj;
+} : function (obj) {
+  return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+};
+
+
+
+
+
+
+
+
+
+
+
 var classCallCheck = function (instance, Constructor) {
   if (!(instance instanceof Constructor)) {
     throw new TypeError("Cannot call a class as a function");
@@ -17716,17 +17732,286 @@ var possibleConstructorReturn = function (self, call) {
   return call && (typeof call === "object" || typeof call === "function") ? call : self;
 };
 
-// Import React and React-dom.
-// Import the components.
-// import { DummyComponent } from './components/dummy-component.jsx'
+//import React from '/node_modules/react/index.js'
+//import React from 'bower_components/react'
+//import ReactDom from '/node_modules/react-dom'
+//import MermGraph from 'es6!./MermGraph'
 
-function renderStuff(domEl, props) {
-  reactDom.render(react.createElement(DummyComponent, props), domEl
+var Vocab = function (_React$Component) {
+	inherits(Vocab, _React$Component);
+
+	function Vocab(props) {
+		classCallCheck(this, Vocab);
+
+		var _this = possibleConstructorReturn(this, (Vocab.__proto__ || Object.getPrototypeOf(Vocab)).call(this, props));
+
+		console.log('in Vocab w/ props:', props);
+		_this.state = {
+			statuses: _this.props.status ? [_this.props.status] : [],
+			showSemGraph: false
+		};
+		return _this;
+	}
+
+	createClass(Vocab, [{
+		key: 'componentDidMount',
+		value: function componentDidMount() {
+			$("#voc-modal").draggable({
+				handle: ".modal-header"
+			});
+			/*
+   			//let vm = $('#voc-modal')
+   		//$('#test-drag').
+   			// .dialog({ autoOpen: true, //modal: true, })
+   		$("#myAlert").click(function(){
+   			alert("Alert's working");
+   		});
+   		*/
+		}
+	}, {
+		key: 'componentWillReceiveProps',
+		value: function componentWillReceiveProps(nextProps) {
+			if (this.props.status !== nextProps.status) {
+				this.setState({ statuses: this.state.statuses.concat(nextProps.status)
+				});
+			}
+		}
+	}, {
+		key: 'render',
+		value: function render() {
+			var _this2 = this;
+
+			var _props = this.props,
+			    status = _props.status,
+			    concepts = _props.concepts,
+			    query = _props.query;
+
+			console.log('in Vocab render w/ props:', this.props);
+
+			var selfKeysMightCareAbout = [
+				/*
+    "loadingSourceCounts",
+    "loadingRelated",
+    "currentConceptArray",
+    "currentConceptId",
+    "hasRelationship",
+    "loadConcept",
+    "meetsRequirements",
+    "metatrix",
+    "sourceCounts",
+    */
+			];
+			var selfModelKeysMightCareAbout = [
+			//"componentParams", // cicular
+			/*
+   "loadConceptSet",
+   "loadIncluded",
+   "loadRepositoryConceptSet",
+   "loadSourcecodes",
+   "createConceptSetItem",
+   */
+			"metarchy", "metatrix", "conceptSetInclusionCount", "conceptSetInclusionIdentifiers", "conceptSetURL", "config", "criteriaContext", "currentConcept", "currentConceptId", "currentConceptIdentifierList", "currentConceptMode", "currentConceptSet", "currentConceptSetExpressionJson", "currentConceptSetMode", "currentConceptSetNegativeControls", "currentConceptSetSource", "currentConceptSetSubscription", "currentIncludedConceptIdentifierList", "currentReport", "currentSource", "currentView", "denseSiblings", "enableRecordCounts", "getSourceInfo", "hasCDM", "hasRelationship", "hasResults"];
+			return react.createElement(
+				'div',
+				null,
+				react.createElement(
+					'button',
+					{ className: 'btn btn-xs ' + (this.state.showSemGraph ? 'btn-default' : 'btn-primary'),
+						onClick: function onClick() {
+							_this2.setState({ showSemGraph: !_this2.state.showSemGraph });
+							return false;
+						},
+						'data-junk': '' /* href="#voc-modal" data-backdrop="false" data-toggle="modal" */
+					},
+					'Sem Graph'
+				),
+				react.createElement(
+					'div',
+					{ id: 'voc-modal', className: 'modal',
+						style: {
+							display: this.state.showSemGraph ? 'block' : 'none',
+							overflow: 'visible',
+							top: '10%',
+							left: '50%',
+							bottom: 'auto',
+							right: 'auto',
+							marginLeft: '-300px'
+						}
+					},
+					react.createElement(
+						'div',
+						{ style: { marginLeft: 0, marginRight: 0 }, className: /*modal-dialog*/'' },
+						react.createElement(
+							'div',
+							{ className: 'modal-content' },
+							react.createElement(
+								'div',
+								{ className: 'modal-header' },
+								react.createElement(
+									'button',
+									{ type: 'button', className: 'close',
+										onClick: function onClick() {
+											return _this2.setState({ showSemGraph: false });
+										}
+									},
+									'\xD7'
+								),
+								react.createElement(
+									'h4',
+									{ className: 'modal-title' },
+									'Settings'
+								)
+							),
+							react.createElement(
+								'div',
+								{ className: 'modal-body' },
+								react.createElement(
+									'p',
+									null,
+									'Settings'
+								)
+							),
+							react.createElement(
+								'div',
+								{ className: 'modal-footer' },
+								react.createElement(
+									'button',
+									{ type: 'button', className: 'btn btn-default',
+										onClick: function onClick() {
+											return _this2.setState({ showSemGraph: false });
+										}
+									},
+									'Close'
+								),
+								react.createElement(
+									'button',
+									{ type: 'button', className: 'btn btn-primary',
+										onClick: function onClick() {
+											return _this2.setState({ saveDoesNothing: !_this2.state.saveDoesNothing });
+										}
+									},
+									this.state.saveDoesNothing ? 'Save does nothing yet' : 'Save changes'
+								)
+							)
+						)
+					)
+				),
+				react.createElement(
+					'pre',
+					{ className: 'heading', style: { whiteSpace: 'pre-wrap' } },
+					'hi bye'
+				)
+			);
+			return react.createElement(
+				'div',
+				null,
+				react.createElement(
+					'pre',
+					{ className: 'heading', style: { whiteSpace: 'pre-wrap' } },
+					'model keys might care about:',
+					JSON.stringify(selfModelKeysMightCareAbout)
+				),
+				selfModelKeysMightCareAbout.map(function (key) {
+					console.log(key);
+					var val = _this2.props.self.model[key];
+					var type = typeof val === 'undefined' ? 'undefined' : _typeof(val);
+					if (type === 'function') {
+						try {
+							val = _this2.props.self.model[key]();
+							type += ', ' + (typeof val === 'undefined' ? 'undefined' : _typeof(val));
+							if (typeof val === 'undefined') {
+								val = 'got undefined from ' + _this2.props.self.model[key];
+							}
+						} catch (e) {
+							val = '(' + e + '): ' + val;
+						}
+					}
+					return react.createElement(
+						'pre',
+						{ key: key, className: 'heading' },
+						key,
+						' (',
+						type,
+						'): ',
+						JSON.stringify(val, null, 2)
+					);
+				}),
+				selfKeysMightCareAbout.map(function (key) {
+					var val = _this2.props.self[key];
+					var type = typeof val === 'undefined' ? 'undefined' : _typeof(val);
+					if (type === 'function') {
+						try {
+							val = _this2.props.self[key]();
+							type += ', ' + (typeof val === 'undefined' ? 'undefined' : _typeof(val));
+							if (typeof val === 'undefined') {
+								val = 'got undefined from ' + _this2.props.self[key];
+							}
+						} catch (e) {
+							val = '(' + e + '): ' + val;
+						}
+					}
+					return react.createElement(
+						'pre',
+						{ key: key, className: 'heading' },
+						key,
+						' (',
+						type,
+						'): ',
+						JSON.stringify(val, null, 2)
+					);
+				})
+			);
+			/*
+   	<pre className="heading" style={{whiteSpace: 'pre-wrap'}}> 
+   		model keys dont care about: <br/>
+   		{JSON.stringify(selfModelKeysDontCareAbout.sort() )}</pre>
+   	<pre className="heading" style={{whiteSpace: 'pre-wrap'}}> 
+   		self keys dont care about: <br/>
+   		{JSON.stringify(selfKeysDontCareAbout.sort() )}</pre>
+   	<pre className="heading" style={{whiteSpace: 'pre-wrap'}}> 
+   		self keys might care about: 
+   		{JSON.stringify(selfKeysMightCareAbout )}</pre>
+   	<h2>
+   	want loadingSourceCounts and loadingRelated to go to false
+   	</h2>
+   	<!--pre className="heading"> self keys might care about: {JSON.stringify(Object.keys(this.props.self).sort(), null, 2 )}</pre>
+   	<pre className="heading">currentConceptIdentifierList: 
+   		{JSON.stringify(this.props.self.model.currentConceptIdentifierList(), null, 2)}</pre-->
+   */
+		}
+	}]);
+	return Vocab;
+}(react.Component);
+/*
+export function renderStuff(self, props) {
+	var comp = ReactDom.render(
+							React.createElement(Vocab, props),
+							self.domEl(),
+							//function(a,b,c) { console.log('reactCB', {a,b,c}); }
+	)
+}
+					<div className="heading">{query}</div>
+					<div>{(concepts||[]).length} concepts</div>
+					<div>related: {(concepts||[])
+								.filter(d=>d.relatedConcepts)
+								.map(d=>d.relatedConcepts.length)
+								.join(',')}</div>
+					<div>Status: {this.state.statuses.join(' -> ')}</div>
+*/
+
+// Import React and React-dom.
+var components = {
+  Vocab: Vocab
+
+  // Import the components.
+  // import { DummyComponent } from './components/dummy-component.jsx'
+
+};function renderStuff(componentName, domEl, props) {
+  var Component = components[componentName] || DummyComponent;
+  reactDom.render(react.createElement(Component, props), domEl
   // function(a,b,c) { console.log('reactCB', {a,b,c}); }
   );
 }
-//console.log(HI, renderStuff)
-
 var DummyComponent = function (_React$Component) {
   inherits(DummyComponent, _React$Component);
 
@@ -17754,7 +18039,7 @@ var DummyComponent = function (_React$Component) {
         react.createElement(
           'pre',
           null,
-          JSON.stringify(Object.keys(this.props), null, 2)
+          JSON.stringify(Object.keys(this.props.self), null, 2)
         )
       );
     }

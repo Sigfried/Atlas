@@ -4,6 +4,7 @@ import cjs from 'rollup-plugin-commonjs'
 import globals from 'rollup-plugin-node-globals'
 import replace from 'rollup-plugin-replace'
 import resolve from 'rollup-plugin-node-resolve'
+// import path from 'path'
 
 export default {
   input: 'js/rollup/src/rollup-hook.js',
@@ -13,6 +14,11 @@ export default {
     format: 'umd',
     name: 'rolluphook'
   },
+  /*
+  external: [
+    'vocab', path.resolve('js/reactFiles/vocab.js')
+  ],
+  */
   plugins: [
     babel({
       babelrc: false,
@@ -34,6 +40,7 @@ export default {
     globals(),
     replace({ 'process.env.NODE_ENV': JSON.stringify('development') }),
     resolve({
+      // module: false,
       // browser: true,
       // main: true
     })

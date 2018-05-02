@@ -1,18 +1,28 @@
 // Import React and React-dom.
 import React from 'react'
 import ReactDOM from 'react-dom'
+import { Vocab, } from '../../reactFiles/vocab'
+//const Vocab = require('vocab')
+//import { Vocab } from 'vocab'
+
+const components = {
+  Vocab
+}
 
 // Import the components.
 // import { DummyComponent } from './components/dummy-component.jsx'
 
-export default function renderStuff (domEl, props) {
+function renderStuff (componentName, domEl, props) {
+  const Component = components[componentName] || DummyComponent
   ReactDOM.render(
-    React.createElement(DummyComponent, props),
+    React.createElement(Component, props),
     domEl
     // function(a,b,c) { console.log('reactCB', {a,b,c}); }
   )
 }
-//console.log(HI, renderStuff)
+export default renderStuff
+
+// console.log(HI, renderStuff)
 
 class DummyComponent extends React.Component {
   render () {
@@ -21,9 +31,9 @@ class DummyComponent extends React.Component {
         <h1>Hi from DummyComponent.</h1>
         <em>Now let's play with React!</em>
         <pre>
-					{
-						JSON.stringify(Object.keys(this.props), null, 2)
-					}
+          {
+            JSON.stringify(Object.keys(this.props.self), null, 2)
+          }
         </pre>
       </article>
     )
