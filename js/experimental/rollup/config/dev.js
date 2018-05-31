@@ -7,9 +7,9 @@ import resolve from 'rollup-plugin-node-resolve'
 // import path from 'path'
 
 export default {
-  input: 'js/rollup/src/rollup-hook.js',
+  input: 'js/experimental/rollup/src/rollup-hook.js',
   output: {
-    file: 'js/rollup/build/main.js',
+    file: 'js/experimental/rollup/build/main.js',
     // format: 'iife',
     format: 'umd',
     name: 'rolluphook'

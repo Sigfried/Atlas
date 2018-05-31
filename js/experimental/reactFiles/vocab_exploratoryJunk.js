@@ -244,27 +244,20 @@ export class Vocab extends React.Component {
 				</div>
 
 				<pre className="heading" style={{whiteSpace: 'pre-wrap'}}> 
-					hi
-					bye
-				</pre>
-			</div>)
-		return (
-			<div>
-				<pre className="heading" style={{whiteSpace: 'pre-wrap'}}> 
 					model keys might care about: 
 					{JSON.stringify(selfModelKeysMightCareAbout )}</pre>
 				{
 					selfModelKeysMightCareAbout.map(
 						key => {
 							console.log(key)
-							let val = this.props.self.model[key]
+							let val = this.props.model[key]
 							let type = typeof(val)
 							if (type === 'function') {
 								try {
-									val = this.props.self.model[key]()
+									val = this.props.model[key]()
 									type += `, ${typeof(val)}`
 									if (typeof(val) === 'undefined') {
-										val = `got undefined from ${this.props.self.model[key]}`
+										val = `got undefined from ${this.props.model[key]}`
 									}
 								} catch(e) {
 									val = `(${e}): ${val}`
@@ -276,6 +269,9 @@ export class Vocab extends React.Component {
 						}
 					)
 				}
+			</div>)
+		return (
+			<div>
 				{
 					selfKeysMightCareAbout.map(
 						key => {

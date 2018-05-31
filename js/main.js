@@ -240,7 +240,8 @@ requirejs.config({
 		"moment": "https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.2/moment.min",
 		"querystring": "https://cdnjs.cloudflare.com/ajax/libs/qs/6.5.1/qs.min",
 
-		"rolluphook": "rollup/build/main",
+		"rolluphook": "experimental/rollup/build/main",
+		"experimental-vocab-data": "experimental/vocab-data",
 		//"rollupthing": "rollup-starter-lib/dist/how-long-till-lunch.umd",
 		//"rolluphook": "babel-react-rollup-starter/build/component",
 		//'es6': "/node_modules/requirejs-babel/es6",

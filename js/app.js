@@ -1,5 +1,8 @@
-define(['jquery', 'knockout', 'ohdsi.util', 'appConfig', 'webapi/AuthAPI', 'webapi/RoleAPI', 'atlas-state', 'querystring', 'd3', 'facets', 'css!styles/tabs.css', 'css!styles/buttons.css'],
-	function ($, ko, ohdsiUtil, config, authApi, roleApi, sharedState, querystring, d3) {
+define(['jquery', 'knockout', 'ohdsi.util', 'appConfig', 'webapi/AuthAPI', 'webapi/RoleAPI', 'atlas-state', 'querystring', 'd3', 
+					'experimental-vocab-data',
+					'facets', 'css!styles/tabs.css', 'css!styles/buttons.css'],
+	function ($, ko, ohdsiUtil, config, authApi, roleApi, sharedState, querystring, d3, experimentalVocabStuff
+	) {
 		var appModel = function () {
 			$.support.cors = true;
 			var self = this;
@@ -9,6 +12,25 @@ define(['jquery', 'knockout', 'ohdsi.util', 'appConfig', 'webapi/AuthAPI', 'weba
 			self.initPromises = [];
 			self.applicationStatus = ko.observable('initializing');
 			self.pendingSearch = ko.observable(false);
+
+
+			self.vocabExperiment = {
+				vocabularies: ko.observable([]),
+				relationships: ko.observable([]),
+				conceptGroups: ko.observable([]),
+			}
+			experimentalVocabStuff.loadStaticVocabData()
+				.then(response => response.json())
+				.then(vocabularies => self.vocabExperiment.vocabularies(vocabularies))
+			experimentalVocabStuff.loadStaticRelationshipsData()
+				.then(response => response.json())
+				.then(relationships => self.vocabExperiment.relationships(relationships))
+			experimentalVocabStuff.loadStaticConceptGroupsData()
+				.then(response => response.json())
+				.then(conceptGroups => self.vocabExperiment.conceptGroups(conceptGroups))
+
+
+
 			self.pageTitle = ko.pureComputed(function () {
 				var pageTitle = "ATLAS";
 				switch (self.currentView()) {

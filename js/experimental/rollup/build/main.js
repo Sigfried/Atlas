@@ -16,7 +16,6 @@ if (typeof global$1.clearTimeout === 'function') {
 }
 
 
-// v8 likes predictible objects
 
 
 
@@ -64,6 +63,7 @@ object-assign
 @license MIT
 */
 
+/* eslint-disable no-unused-vars */
 var getOwnPropertySymbols = Object.getOwnPropertySymbols;
 var hasOwnProperty = Object.prototype.hasOwnProperty;
 var propIsEnumerable = Object.prototype.propertyIsEnumerable;
@@ -155,6 +155,15 @@ var emptyObject = {};
 
 var emptyObject_1 = emptyObject;
 
+/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * 
+ */
+
 function makeEmptyFunction(arg) {
   return function () {
     return arg;
@@ -196,6 +205,17 @@ isValidElement:K,version:"16.2.0",__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_F
 var V=Object.freeze({default:U});
 var W=V&&U||V;var react_production_min=W["default"]?W["default"]:W;
 
+/**
+ * Use invariant() to assert state which your program assumes to be true.
+ *
+ * Provide sprintf-style format (only %s is supported) and arguments
+ * to provide information about what broke and what you were
+ * expecting.
+ *
+ * The invariant message will be stripped in production, but the invariant
+ * will remain to ensure logic does not differ in production.
+ */
+
 var validateFormat = function validateFormat(format) {};
 
 {
@@ -228,6 +248,13 @@ function invariant(condition, format, a, b, c, d, e, f) {
 }
 
 var invariant_1 = invariant;
+
+/**
+ * Similar to invariant but only logs a warning if the condition is not met.
+ * This can be used to log issues in development environments in critical
+ * paths. Removing the logging code for production environments will keep the
+ * same logic and follow the same code paths.
+ */
 
 var warning = emptyFunction_1;
 
@@ -1727,6 +1754,21 @@ var ExecutionEnvironment = {
 
 var ExecutionEnvironment_1 = ExecutionEnvironment;
 
+/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * @typechecks
+ */
+
+
+
+/**
+ * Upstream version of event listener. Does not take into account specific
+ * nature of platform.
+ */
 var EventListener = {
   /**
    * Listen to DOM events during the bubble phase.
@@ -1785,6 +1827,27 @@ var EventListener = {
 
 var EventListener_1 = EventListener;
 
+/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * @typechecks
+ */
+
+/* eslint-disable fb-www/typeof-undefined */
+
+/**
+ * Same as document.activeElement but wraps in a try-catch block. In IE it is
+ * not safe to call document.activeElement if there is nothing focused.
+ *
+ * The activeElement will be null only if the document or document body is not
+ * yet defined.
+ *
+ * @param {?DOMDocument} doc Defaults to current document.
+ * @return {?DOMElement}
+ */
 function getActiveElement(doc) /*?DOMElement*/{
   doc = doc || (typeof document !== 'undefined' ? document : undefined);
   if (typeof doc === 'undefined') {
@@ -1863,6 +1926,19 @@ function shallowEqual(objA, objB) {
 
 var shallowEqual_1 = shallowEqual;
 
+/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * @typechecks
+ */
+
+/**
+ * @param {*} object The object to check.
+ * @return {boolean} Whether or not the object is a DOM node.
+ */
 function isNode(object) {
   var doc = object ? object.ownerDocument || object : document;
   var defaultView = doc.defaultView || window;
@@ -1871,12 +1947,43 @@ function isNode(object) {
 
 var isNode_1 = isNode;
 
+/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * @typechecks
+ */
+
+
+
+/**
+ * @param {*} object The object to check.
+ * @return {boolean} Whether or not the object is a DOM text node.
+ */
 function isTextNode(object) {
   return isNode_1(object) && object.nodeType == 3;
 }
 
 var isTextNode_1 = isTextNode;
 
+/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * 
+ */
+
+
+
+/*eslint-disable no-bitwise */
+
+/**
+ * Checks if a given DOM node contains or is another DOM node.
+ */
 function containsNode(outerNode, innerNode) {
   if (!outerNode || !innerNode) {
     return false;
@@ -1903,6 +2010,10 @@ var containsNode_1 = containsNode;
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  *
+ */
+
+/**
+ * @param {DOMElement} node input/textarea to focus
  */
 
 function focusNode(node) {
@@ -2169,6 +2280,15 @@ var Sg={createPortal:Qg,findDOMNode:function(a){if(null==a)return null;if(1===a.
 E$1("40");return a._reactRootContainer?(Z.unbatchedUpdates(function(){Pg(null,null,a,!1,function(){a._reactRootContainer=null;});}), !0):!1},unstable_createPortal:Qg,unstable_batchedUpdates:tc,unstable_deferredUpdates:Z.deferredUpdates,flushSync:Z.flushSync,__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED:{EventPluginHub:mb,EventPluginRegistry:Va,EventPropagators:Cb,ReactControlledComponent:qc,ReactDOMComponentTree:sb,ReactDOMEventListener:xd}};
 Z.injectIntoDevTools({findFiberByHostInstance:pb,bundleType:0,version:"16.2.0",rendererPackageName:"react-dom"});var Tg=Object.freeze({default:Sg}); var Ug=Tg&&Sg||Tg;var reactDom_production_min=Ug["default"]?Ug["default"]:Ug;
 
+/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * @typechecks
+ */
+
 var _uppercasePattern = /([A-Z])/g;
 
 /**
@@ -2212,6 +2332,15 @@ function hyphenateStyleName(string) {
 }
 
 var hyphenateStyleName_1 = hyphenateStyleName;
+
+/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * @typechecks
+ */
 
 var _hyphenPattern = /-(.)/g;
 
@@ -17650,22 +17779,6 @@ var reactDom = createCommonjsModule(function (module) {
 }
 });
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
-  return typeof obj;
-} : function (obj) {
-  return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-};
-
-
-
-
-
-
-
-
-
-
-
 var classCallCheck = function (instance, Constructor) {
   if (!(instance instanceof Constructor)) {
     throw new TypeError("Cannot call a class as a function");
@@ -17788,29 +17901,6 @@ var Vocab = function (_React$Component) {
 
 			console.log('in Vocab render w/ props:', this.props);
 
-			var selfKeysMightCareAbout = [
-				/*
-    "loadingSourceCounts",
-    "loadingRelated",
-    "currentConceptArray",
-    "currentConceptId",
-    "hasRelationship",
-    "loadConcept",
-    "meetsRequirements",
-    "metatrix",
-    "sourceCounts",
-    */
-			];
-			var selfModelKeysMightCareAbout = [
-			//"componentParams", // cicular
-			/*
-   "loadConceptSet",
-   "loadIncluded",
-   "loadRepositoryConceptSet",
-   "loadSourcecodes",
-   "createConceptSetItem",
-   */
-			"metarchy", "metatrix", "conceptSetInclusionCount", "conceptSetInclusionIdentifiers", "conceptSetURL", "config", "criteriaContext", "currentConcept", "currentConceptId", "currentConceptIdentifierList", "currentConceptMode", "currentConceptSet", "currentConceptSetExpressionJson", "currentConceptSetMode", "currentConceptSetNegativeControls", "currentConceptSetSource", "currentConceptSetSubscription", "currentIncludedConceptIdentifierList", "currentReport", "currentSource", "currentView", "denseSiblings", "enableRecordCounts", "getSourceInfo", "hasCDM", "hasRelationship", "hasResults"];
 			return react.createElement(
 				'div',
 				null,
@@ -17899,107 +17989,19 @@ var Vocab = function (_React$Component) {
 				react.createElement(
 					'pre',
 					{ className: 'heading', style: { whiteSpace: 'pre-wrap' } },
-					'hi bye'
+					'model keys might care about:',
+					JSON.stringify(this.props.model.vocabExperiment.currentConceptInfo())
 				)
 			);
-			return react.createElement(
-				'div',
-				null,
-				react.createElement(
-					'pre',
-					{ className: 'heading', style: { whiteSpace: 'pre-wrap' } },
-					'model keys might care about:',
-					JSON.stringify(selfModelKeysMightCareAbout)
-				),
-				selfModelKeysMightCareAbout.map(function (key) {
-					console.log(key);
-					var val = _this2.props.self.model[key];
-					var type = typeof val === 'undefined' ? 'undefined' : _typeof(val);
-					if (type === 'function') {
-						try {
-							val = _this2.props.self.model[key]();
-							type += ', ' + (typeof val === 'undefined' ? 'undefined' : _typeof(val));
-							if (typeof val === 'undefined') {
-								val = 'got undefined from ' + _this2.props.self.model[key];
-							}
-						} catch (e) {
-							val = '(' + e + '): ' + val;
-						}
-					}
-					return react.createElement(
-						'pre',
-						{ key: key, className: 'heading' },
-						key,
-						' (',
-						type,
-						'): ',
-						JSON.stringify(val, null, 2)
-					);
-				}),
-				selfKeysMightCareAbout.map(function (key) {
-					var val = _this2.props.self[key];
-					var type = typeof val === 'undefined' ? 'undefined' : _typeof(val);
-					if (type === 'function') {
-						try {
-							val = _this2.props.self[key]();
-							type += ', ' + (typeof val === 'undefined' ? 'undefined' : _typeof(val));
-							if (typeof val === 'undefined') {
-								val = 'got undefined from ' + _this2.props.self[key];
-							}
-						} catch (e) {
-							val = '(' + e + '): ' + val;
-						}
-					}
-					return react.createElement(
-						'pre',
-						{ key: key, className: 'heading' },
-						key,
-						' (',
-						type,
-						'): ',
-						JSON.stringify(val, null, 2)
-					);
-				})
-			);
-			/*
-   	<pre className="heading" style={{whiteSpace: 'pre-wrap'}}> 
-   		model keys dont care about: <br/>
-   		{JSON.stringify(selfModelKeysDontCareAbout.sort() )}</pre>
-   	<pre className="heading" style={{whiteSpace: 'pre-wrap'}}> 
-   		self keys dont care about: <br/>
-   		{JSON.stringify(selfKeysDontCareAbout.sort() )}</pre>
-   	<pre className="heading" style={{whiteSpace: 'pre-wrap'}}> 
-   		self keys might care about: 
-   		{JSON.stringify(selfKeysMightCareAbout )}</pre>
-   	<h2>
-   	want loadingSourceCounts and loadingRelated to go to false
-   	</h2>
-   	<!--pre className="heading"> self keys might care about: {JSON.stringify(Object.keys(this.props.self).sort(), null, 2 )}</pre>
-   	<pre className="heading">currentConceptIdentifierList: 
-   		{JSON.stringify(this.props.self.model.currentConceptIdentifierList(), null, 2)}</pre-->
-   */
 		}
 	}]);
 	return Vocab;
 }(react.Component);
-/*
-export function renderStuff(self, props) {
-	var comp = ReactDom.render(
-							React.createElement(Vocab, props),
-							self.domEl(),
-							//function(a,b,c) { console.log('reactCB', {a,b,c}); }
-	)
-}
-					<div className="heading">{query}</div>
-					<div>{(concepts||[]).length} concepts</div>
-					<div>related: {(concepts||[])
-								.filter(d=>d.relatedConcepts)
-								.map(d=>d.relatedConcepts.length)
-								.join(',')}</div>
-					<div>Status: {this.state.statuses.join(' -> ')}</div>
-*/
 
 // Import React and React-dom.
+// const Vocab = require('vocab')
+// import { Vocab } from 'vocab'
+
 var components = {
   Vocab: Vocab
 
@@ -18008,10 +18010,13 @@ var components = {
 
 };function renderStuff(componentName, domEl, props) {
   var Component = components[componentName] || DummyComponent;
+  console.log('hi!');
   reactDom.render(react.createElement(Component, props), domEl
   // function(a,b,c) { console.log('reactCB', {a,b,c}); }
   );
 }
+// console.log(HI, renderStuff)
+
 var DummyComponent = function (_React$Component) {
   inherits(DummyComponent, _React$Component);
 

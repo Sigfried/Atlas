@@ -1,5 +1,6 @@
 define(['knockout', 'text!./concept-manager.html', 'appConfig', 'vocabularyprovider', 'atlas-state', 
 				'supergroup',
+				'experimental-vocab-data',
 				'rolluphook',
 	//'es6!reactFiles/Vocab', 
 	      //'es6!react', 'es6!react-dom', 
@@ -7,7 +8,7 @@ define(['knockout', 'text!./concept-manager.html', 'appConfig', 'vocabularyprovi
 				'faceted-datatable',
 	'jquery-ui/ui/widgets/draggable'
 		], function (ko, view, config, vocabAPI, sharedState,
-									_, rolluphook,
+									_, experimentalVocabStuff, rolluphook,
 									//React, ReactDom, 
 									//Vocab
 ) {
@@ -36,7 +37,6 @@ define(['knockout', 'text!./concept-manager.html', 'appConfig', 'vocabularyprovi
 		}
 		*/
 		self.domEl.subscribe(function() {
-			let props = {self, a:'hi hi', b: 'bye bye'}
 			self.domElReady(true)
 			//Vocab(self, props);
 
@@ -56,9 +56,10 @@ define(['knockout', 'text!./concept-manager.html', 'appConfig', 'vocabularyprovi
 			return ko.toJSON( _.pick(self, selfKeysMightCareAbout))
 		}).subscribe(function(_self) {
 			if (self.domElReady()) {
-				rolluphook('Vocab', self.domEl(), {self})
+				rolluphook('Vocab', self.domEl(), self)
 				//Vocab(self, {self})
-				console.error("nothing here at the moment")
+				//
+				console.warn("nothing here at the moment")
 			}
 		});
 				
@@ -481,6 +482,14 @@ define(['knockout', 'text!./concept-manager.html', 'appConfig', 'vocabularyprovi
 		self.currentConceptArray = ko.observableArray();
 
 		self.loadConcept = function (conceptId) {
+
+			self.model.vocabExperiment.currentConceptInfo = ko.observable()
+			/*
+			experimentalVocabStuff.loadConceptInfo(conceptId)
+				.then(response => response.json())
+				.then(conceptInfo => self.model.vocabExperiment.currentConceptInfo(conceptInfo))
+			*/
+
 			var conceptPromise = $.ajax({
 				url: sharedState.vocabularyUrl() + 'concept/' + conceptId,
 				method: 'GET',
@@ -498,29 +507,6 @@ define(['knockout', 'text!./concept-manager.html', 'appConfig', 'vocabularyprovi
 						self.model.recentConcept.pop();
 					}
 					self.model.currentConcept(c);
-				}
-			});
-			var conceptInfoPromise = $.ajax({
-				//url: sharedState.vocabularyUrl() + 'concept/' + conceptId,
-				url: `http://127.0.0.1:3031/api/chcos/conceptInfo?cdmSchema=cdm_v501&concept_ids=%5B${conceptId}%5D&resultsSchema=results`,
-				method: 'GET',
-				contentType: 'application/json',
-				success: function (c, status, xhr) {
-					console.log('got conceptInfo', c, status, xhr)
-						/*
-					var exists = false;
-					for (var i = 0; i < self.model.recentConcept().length; i++) {
-						if (self.model.recentConcept()[i].CONCEPT_ID == c.CONCEPT_ID)
-							exists = true;
-					}
-					if (!exists) {
-						self.model.recentConcept.unshift(c);
-					}
-					if (self.model.recentConcept().length > 7) {
-						self.model.recentConcept.pop();
-					}
-					self.model.currentConcept(c);
-						*/
 				}
 			});
 			// load related concepts once the concept is loaded
